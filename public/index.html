@@ -23,10 +23,7 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
 .page-sub{font-size:13px;color:#555;margin-bottom:24px}
 .card{background:#161616;border:1px solid #222;border-radius:10px;padding:18px;margin-bottom:14px}
 .card-title{font-size:13px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.badge{font-size:10px;padding:2px 8px;border-radius:999px;font-weight:600}
-.badge-purple{background:#1e1a3a;color:#a89ff5}
-.badge-green{background:#0f2d1a;color:#4ade80}
-.badge-amber{background:#2d1f00;color:#fbbf24}
+.badge{font-size:10px;padding:2px 8px;border-radius:999px;font-weight:600;background:#1e1a3a;color:#a89ff5}
 .form-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
 .form-row label{font-size:12px;color:#555;min-width:120px}
 .form-row input,.form-row select{flex:1;min-width:0;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;padding:0 10px;height:34px;font-size:13px;color:#fff;font-family:'Inter',sans-serif}
@@ -61,10 +58,6 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
 .slider:before{content:'';position:absolute;width:14px;height:14px;left:3px;top:3px;background:#555;border-radius:50%;transition:0.2s}
 .toggle input:checked+.slider{background:#534AB7}
 .toggle input:checked+.slider:before{transform:translateX(18px);background:#fff}
-.preview-wrap{background:#000;border-radius:10px;aspect-ratio:16/9;overflow:hidden;margin-bottom:14px;display:flex;align-items:center;justify-content:center}
-.preview-nav{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
-.preview-nav button{padding:5px 12px;font-size:11px;font-weight:600;border-radius:6px;cursor:pointer;border:1px solid #2a2a2a;background:transparent;color:#555;transition:all 0.15s;font-family:'Inter',sans-serif}
-.preview-nav button.active{background:#534AB7;color:#fff;border-color:#534AB7}
 .log{background:#0d0d0d;border:1px solid #1e1e1e;border-radius:8px;padding:12px;font-size:12px;font-family:'Courier New',monospace;color:#555;max-height:180px;overflow-y:auto;line-height:1.9;margin-top:10px}
 .log .ok{color:#4ade80}.log .err{color:#f87171}.log .info{color:#60a5fa}.log .warn{color:#fbbf24}
 .progress-bar{height:4px;background:#1e1e1e;border-radius:999px;overflow:hidden;margin:8px 0}
@@ -94,7 +87,6 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
     <div class="nav-label">Video Builder</div>
     <div class="nav-item active" onclick="showPanel('design')">🎨 Design</div>
     <div class="nav-item" onclick="showPanel('video')">🎬 Video & Stats</div>
-    <div class="nav-item" onclick="showPanel('preview')">👁 Preview</div>
     <div class="nav-item" onclick="showPanel('render')">⚡ Render</div>
   </div>
 </nav>
@@ -114,9 +106,9 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
     <div class="card">
       <div class="card-title">Video elements</div>
       <div class="toggle-grid">
-        <div class="toggle-row"><div><div class="tl">Animated intro card</div><div class="ts">4 sec — name, school, reel title</div></div><label class="toggle"><input type="checkbox" id="chkIntro" checked><span class="slider"></span></label></div>
-        <div class="toggle-row"><div><div class="tl">Lower third name bug</div><div class="ts">Player ID on each clip</div></div><label class="toggle"><input type="checkbox" id="chkLower" checked><span class="slider"></span></label></div>
-        <div class="toggle-row"><div><div class="tl">Outro stats card</div><div class="ts">5 sec — season stats</div></div><label class="toggle"><input type="checkbox" id="chkOutro" checked><span class="slider"></span></label></div>
+        <div class="toggle-row"><div><div class="tl">Intro card</div><div class="ts">Player name, school, number, position, grad year</div></div><label class="toggle"><input type="checkbox" id="chkIntro" checked><span class="slider"></span></label></div>
+        <div class="toggle-row"><div><div class="tl">Lower third</div><div class="ts">Name + number on each clip</div></div><label class="toggle"><input type="checkbox" id="chkLower" checked><span class="slider"></span></label></div>
+        <div class="toggle-row"><div><div class="tl">Outro stats</div><div class="ts">Season stats close the reel</div></div><label class="toggle"><input type="checkbox" id="chkOutro" checked><span class="slider"></span></label></div>
       </div>
     </div>
     <button class="btn btn-primary btn-full" onclick="showPanel('video')">Continue to video & stats →</button>
@@ -124,16 +116,26 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
 
   <div id="panel-video" class="panel">
     <div class="page-title">Video & Stats</div>
-    <div class="page-sub">Set the source video and stats for this reel.</div>
+    <div class="page-sub">Set the source video, player details, and stats.</div>
     <div class="card">
       <div class="card-title">Source video</div>
-      <div class="info-box blue">Paste your Dropbox direct link ending in dl=1. Must be a publicly accessible MP4.</div>
+      <div class="info-box blue">Paste your Dropbox direct link ending in dl=1.</div>
       <div class="form-row"><label>Dropbox URL</label><input type="text" id="videoUrl" placeholder="https://www.dropbox.com/...dl=1"></div>
       <div class="form-row"><label>Reel title</label><input type="text" id="reelTitle" placeholder="e.g. 3-Point Shooting vs Veritas"></div>
-      <div class="form-row"><label>Video length (sec)</label><input type="number" id="videoLen" value="60" min="5" max="300"></div>
+      <div class="form-row"><label>Video length (sec)</label><input type="number" id="videoLen" value="60" min="5" max="600"></div>
     </div>
     <div class="card">
-      <div class="card-title">Outro stats <span class="badge badge-purple">this reel only</span></div>
+      <div class="card-title">Player details</div>
+      <div class="form-row"><label>Full name</label><input type="text" id="pName" value="Mattie Droeg"></div>
+      <div class="form-row"><label>Jersey number</label><input type="text" id="pNum" value="#34"></div>
+      <div class="form-row"><label>Position</label><input type="text" id="pPos" value="SG / G / SF"></div>
+      <div class="form-row"><label>High school</label><input type="text" id="pSchool" value="Lincoln Preparatory Academy"></div>
+      <div class="form-row"><label>Grad year</label><input type="text" id="pGrad" value="Class of 2027"></div>
+      <div class="form-row"><label>GPA</label><input type="text" id="pGpa" placeholder="e.g. 3.8"></div>
+      <div class="form-row"><label>Height</label><input type="text" id="pHeight" placeholder="e.g. 5'10&quot;"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Outro stats <span class="badge">this reel only</span></div>
       <p style="font-size:12px;color:#444;margin-bottom:12px">Leave blank to hide.</p>
       <div class="stat-grid">
         <div class="stat-input"><label>PPG</label><input type="text" id="s1" placeholder="18.4"></div>
@@ -144,26 +146,13 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
         <div class="stat-input"><label>Season</label><input type="text" id="s6" placeholder="2024-25"></div>
       </div>
     </div>
-    <button class="btn btn-primary btn-full" onclick="showPanel('preview')">Preview →</button>
-  </div>
-
-  <div id="panel-preview" class="panel">
-    <div class="page-title">Preview</div>
-    <div class="page-sub">See how each element will look.</div>
-    <div class="preview-nav">
-      <button class="active" onclick="setPreview('intro',this)">Intro</button>
-      <button onclick="setPreview('lower',this)">Lower third</button>
-      <button onclick="setPreview('outro',this)">Outro</button>
-    </div>
-    <div class="preview-wrap" id="previewWrap"></div>
-    <div class="card"><p id="previewDesc" style="font-size:13px;color:#555;line-height:1.6"></p></div>
-    <button class="btn btn-primary btn-full" onclick="showPanel('render')">Looks good — render it →</button>
+    <button class="btn btn-primary btn-full" onclick="showPanel('render')">Go to render →</button>
   </div>
 
   <div id="panel-render" class="panel">
     <div class="page-title">Render</div>
     <div class="page-sub">Submit to Shotstack and download your polished MP4.</div>
-    <div class="info-box amber">Sandbox renders include a small Shotstack watermark. Switch to Production key for clean output.</div>
+    <div class="info-box amber">Sandbox renders include a small Shotstack watermark.</div>
     <div class="card">
       <div class="card-title">Render summary</div>
       <table class="summary-table" id="summaryTable"></table>
@@ -176,7 +165,6 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
 
 </main>
 <script>
-const P={name:'Mattie Droeg',num:'#34',pos:'SG / G / SF',school:'Lincoln Preparatory Academy',grad:'Class of 2027'};
 const COLORS=[{h:'#534AB7',l:'Purple'},{h:'#1D9E75',l:'Teal'},{h:'#D85A30',l:'Coral'},{h:'#378ADD',l:'Blue'},{h:'#111111',l:'Black'},{h:'#BA7517',l:'Gold'},{h:'#A32D2D',l:'Red'},{h:'#ffffff',l:'White'}];
 const MUSIC=[
   {id:'m1',l:'Full court press',d:'Hard trap, high energy',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/advertising.mp3'},
@@ -184,62 +172,31 @@ const MUSIC=[
   {id:'m3',l:'Highlight reel',d:'Cinematic + bass',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/ambisax.mp3'},
   {id:'m4',l:'Championship',d:'Epic orchestral',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/action-ambient.mp3'},
 ];
-let color='#534AB7', music=MUSIC[0], preview='intro';
+let color='#534AB7', music=MUSIC[0];
 
-// Color grid
 document.getElementById('colorGrid').innerHTML=COLORS.map((c,i)=>`<div class="color-chip${i===0?' on':''}" style="background:${c.h}${c.h==='#ffffff'?';border:2px solid #333':''}" title="${c.l}" onclick="pickColor('${c.h}',this)"></div>`).join('');
-function pickColor(h,el){color=h;document.querySelectorAll('.color-chip').forEach(x=>x.classList.remove('on'));el.classList.add('on');renderPreview();}
+function pickColor(h,el){color=h;document.querySelectorAll('.color-chip').forEach(x=>x.classList.remove('on'));el.classList.add('on');}
 
-// Music grid
 document.getElementById('musicGrid').innerHTML=MUSIC.map((m,i)=>`<div class="music-chip${i===0?' on':''}" onclick="pickMusic('${m.id}',this)"><div style="font-size:18px">${['⚡','🔥','🌟','🏆'][i]}</div><div class="ml">${m.l}</div><div class="md">${m.d}</div></div>`).join('');
 function pickMusic(id,el){music=MUSIC.find(m=>m.id===id);document.querySelectorAll('.music-chip').forEach(x=>x.classList.remove('on'));el.classList.add('on');}
 
 function showPanel(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach((n,i)=>n.classList.toggle('active',['design','video','preview','render'][i]===id));
-  if(id==='preview') renderPreview();
+  document.querySelectorAll('.nav-item').forEach((n,i)=>n.classList.toggle('active',['design','video','render'][i]===id));
   if(id==='render') renderSummary();
 }
 
-function setPreview(type,btn){preview=type;document.querySelectorAll('.preview-nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderPreview();}
-
-function renderPreview(){
-  const w=document.getElementById('previewWrap');
-  const d=document.getElementById('previewDesc');
-  const title=document.getElementById('reelTitle')?.value||'Highlight Reel';
-  const c=color;
-  if(preview==='intro'){
-    w.innerHTML=`<div style="width:100%;height:100%;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem">
-      <div style="font-size:10px;letter-spacing:4px;color:#444;text-transform:uppercase;margin-bottom:12px">${P.school}</div>
-      <div style="font-size:clamp(22px,4vw,48px);font-weight:900;color:#fff;margin-bottom:8px">${P.name}</div>
-      <div style="font-size:clamp(10px,1.5vw,14px);color:#666;letter-spacing:2px;margin-bottom:16px">${P.num} · ${P.pos} · ${P.grad}</div>
-      <div style="background:${c};color:#fff;font-size:11px;font-weight:700;padding:6px 20px;letter-spacing:3px;text-transform:uppercase;border-radius:3px">${title}</div>
-    </div>`;
-    d.textContent='4-second intro card. Fades in with school, name, number, position, grad year, and reel title.';
-  } else if(preview==='lower'){
-    w.innerHTML=`<div style="width:100%;height:100%;background:linear-gradient(160deg,#1a1a2a,#222);display:flex;align-items:flex-end;padding:14px;position:relative">
-      <div style="color:#222;font-size:11px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">[ game footage ]</div>
-      <div style="background:${c}ee;padding:8px 14px;border-radius:3px">
-        <div style="font-size:clamp(12px,1.8vw,15px);font-weight:700;color:#fff">${P.name}</div>
-        <div style="font-size:clamp(9px,1.2vw,11px);color:rgba(255,255,255,0.7);margin-top:2px">${P.num} · ${P.pos} · ${P.school}</div>
-      </div>
-    </div>`;
-    d.textContent='Lower third slides in 1 second into each clip, holds for 3 seconds. Keeps Mattie identified for every coach watching.';
-  } else {
-    const stats=getStats();
-    const sh=stats.length?`<div style="display:flex;gap:clamp(10px,2vw,28px);flex-wrap:wrap;justify-content:center">${stats.map(s=>`<div style="text-align:center"><div style="font-size:clamp(18px,3vw,32px);font-weight:900;color:#fff">${s.val}</div><div style="font-size:9px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-top:4px">${s.lbl}</div></div>`).join('')}</div>`:'<div style="color:#333;font-size:12px">Add stats on Video & Stats tab</div>';
-    w.innerHTML=`<div style="width:100%;height:100%;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:2rem;text-align:center">
-      <div>
-        <div style="font-size:9px;letter-spacing:3px;color:#444;text-transform:uppercase;margin-bottom:6px">${document.getElementById('s6')?.value||'Season Stats'}</div>
-        <div style="font-size:clamp(16px,2.5vw,26px);font-weight:800;color:#fff">${P.name}</div>
-        <div style="font-size:10px;color:#444;margin-top:3px">${P.school} · ${P.grad}</div>
-      </div>
-      ${sh}
-      <div style="width:36px;height:3px;background:${c};border-radius:2px"></div>
-    </div>`;
-    d.textContent='5-second outro stats card. Season numbers displayed as coaches finish watching the reel.';
-  }
+function getP(){
+  return {
+    name: document.getElementById('pName')?.value||'Mattie Droeg',
+    num: document.getElementById('pNum')?.value||'#34',
+    pos: document.getElementById('pPos')?.value||'SG / G / SF',
+    school: document.getElementById('pSchool')?.value||'Lincoln Preparatory Academy',
+    grad: document.getElementById('pGrad')?.value||'Class of 2027',
+    gpa: document.getElementById('pGpa')?.value||'',
+    height: document.getElementById('pHeight')?.value||'',
+  };
 }
 
 function getStats(){
@@ -248,12 +205,16 @@ function getStats(){
 }
 
 function renderSummary(){
+  const p=getP();
   const url=document.getElementById('videoUrl')?.value||'Not set';
   const title=document.getElementById('reelTitle')?.value||'Highlight Reel';
   const stats=getStats();
   document.getElementById('summaryTable').innerHTML=`
-    <tr><td>Player</td><td>${P.name} · ${P.num}</td></tr>
-    <tr><td>School</td><td>${P.school} · ${P.grad}</td></tr>
+    <tr><td>Player</td><td>${p.name} · ${p.num}</td></tr>
+    <tr><td>School</td><td>${p.school} · ${p.grad}</td></tr>
+    <tr><td>Position</td><td>${p.pos}</td></tr>
+    ${p.gpa?`<tr><td>GPA</td><td>${p.gpa}</td></tr>`:''}
+    ${p.height?`<tr><td>Height</td><td>${p.height}</td></tr>`:''}
     <tr><td>Reel title</td><td>${title}</td></tr>
     <tr><td>Video URL</td><td style="word-break:break-all;font-size:11px">${url}</td></tr>
     <tr><td>Color</td><td><span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:50%;background:${color};display:inline-block;border:1px solid #333"></span>${COLORS.find(c=>c.h===color)?.l}</span></td></tr>
@@ -277,6 +238,7 @@ async function submitRender(){
   document.getElementById('renderProgress').style.width='0%';
   document.getElementById('renderLog').innerHTML='';
 
+  const p=getP();
   const title=document.getElementById('reelTitle')?.value||'Highlight Reel';
   const vlen=parseInt(document.getElementById('videoLen')?.value||60);
   const stats=getStats();
@@ -288,37 +250,101 @@ async function submitRender(){
   addLog('Building timeline...','info');
   setP(10);
 
-  let trackOffset=0;
-  const videoTrack=[];
-  const overlayTrack=[];
+  // Build details line
+  const detailParts=[p.num, p.pos, p.grad];
+  if(p.height) detailParts.push(p.height);
+  if(p.gpa) detailParts.push('GPA '+p.gpa);
+  const detailLine=detailParts.join('  |  ');
+
+  // Stat line for outro
+  const statLine=stats.map(s=>s.val+' '+s.lbl).join('   ');
+  const season=document.getElementById('s6')?.value||'Season Stats';
+
+  let videoOffset=0;
+  const mainClips=[];
+  const overlayClips=[];
 
   if(showIntro){
-    videoTrack.push({asset:{type:'title',text:P.name,style:'minimal',color:'#ffffff',size:'large',background:'#111111'},start:0,length:4,transition:{in:'fade',out:'fade'}});
-    trackOffset=4;
+    // Layer 1: black background title card - school name
+    mainClips.push({
+      asset:{type:'title',text:p.school,style:'minimal',color:'#888888',size:'small',background:'#0a0a0a'},
+      start:0,length:5,position:'center',offset:{x:0,y:0.15},
+      transition:{in:'fade',out:'fade'}
+    });
+    // Layer 2: player name - large
+    mainClips.push({
+      asset:{type:'title',text:p.name,style:'minimal',color:'#ffffff',size:'large',background:'#00000000'},
+      start:0,length:5,position:'center',offset:{x:0,y:0},
+      transition:{in:'fade',out:'fade'}
+    });
+    // Layer 3: details line
+    mainClips.push({
+      asset:{type:'title',text:detailLine,style:'minimal',color:'#aaaaaa',size:'x-small',background:'#00000000'},
+      start:0,length:5,position:'center',offset:{x:0,y:-0.15},
+      transition:{in:'fade',out:'fade'}
+    });
+    // Layer 4: reel title badge
+    mainClips.push({
+      asset:{type:'title',text:title.toUpperCase(),style:'minimal',color:'#ffffff',size:'x-small',background:c},
+      start:0,length:5,position:'center',offset:{x:0,y:-0.28},
+      transition:{in:'fade',out:'fade'}
+    });
+    videoOffset=5;
   }
 
-  videoTrack.push({asset:{type:'video',src:videoUrl},start:trackOffset,length:vlen});
+  // Main video clip
+  mainClips.push({
+    asset:{type:'video',src:videoUrl},
+    start:videoOffset,length:vlen
+  });
 
+  // Lower third
   if(showLower){
-    overlayTrack.push({
-      asset:{type:'title',text:P.name+' '+P.num+' | '+P.pos,style:'minimal',color:'#ffffff',size:'x-small',background:c},
-      start:trackOffset+1,length:4,position:'bottomLeft',offset:{x:0.05,y:-0.05},
+    overlayClips.push({
+      asset:{type:'title',text:p.name+'  '+p.num,style:'minimal',color:'#ffffff',size:'small',background:c},
+      start:videoOffset+1,length:4,position:'bottomLeft',offset:{x:0.05,y:-0.05},
+      transition:{in:'slideRight',out:'slideLeft'}
+    });
+    overlayClips.push({
+      asset:{type:'title',text:p.school+' · '+p.pos,style:'minimal',color:'#dddddd',size:'x-small',background:'#000000bb'},
+      start:videoOffset+1,length:4,position:'bottomLeft',offset:{x:0.05,y:-0.12},
       transition:{in:'slideRight',out:'slideLeft'}
     });
   }
 
-  const outroStart=trackOffset+vlen;
-  if(showOutro&&stats.length){
-    const statText=stats.map(s=>s.val+' '+s.lbl).join('  |  ');
-    videoTrack.push({asset:{type:'title',text:statText,style:'minimal',color:'#ffffff',size:'medium',background:'#111111'},start:outroStart,length:5,transition:{in:'fade',out:'fade'}});
+  // Outro
+  const outroStart=videoOffset+vlen;
+  if(showOutro){
+    mainClips.push({
+      asset:{type:'title',text:p.name,style:'minimal',color:'#ffffff',size:'large',background:'#0a0a0a'},
+      start:outroStart,length:6,position:'center',offset:{x:0,y:0.15},
+      transition:{in:'fade',out:'fade'}
+    });
+    mainClips.push({
+      asset:{type:'title',text:p.school+' · '+p.grad,style:'minimal',color:'#888888',size:'x-small',background:'#00000000'},
+      start:outroStart,length:6,position:'center',offset:{x:0,y:0.02},
+      transition:{in:'fade',out:'fade'}
+    });
+    if(stats.length){
+      mainClips.push({
+        asset:{type:'title',text:statLine,style:'minimal',color:'#ffffff',size:'medium',background:'#00000000'},
+        start:outroStart,length:6,position:'center',offset:{x:0,y:-0.12},
+        transition:{in:'fade',out:'fade'}
+      });
+      mainClips.push({
+        asset:{type:'title',text:season,style:'minimal',color:'#666666',size:'x-small',background:'#00000000'},
+        start:outroStart,length:6,position:'center',offset:{x:0,y:-0.24},
+        transition:{in:'fade',out:'fade'}
+      });
+    }
   }
 
   const timeline={
     background:'#000000',
     soundtrack:{src:music.url,effect:'fadeOut',volume:0.6},
-    tracks:[{clips:videoTrack}]
+    tracks:[{clips:mainClips}]
   };
-  if(overlayTrack.length) timeline.tracks.push({clips:overlayTrack});
+  if(overlayClips.length) timeline.tracks.push({clips:overlayClips});
 
   addLog('Submitting to Shotstack...','info');
   setP(25);
@@ -331,11 +357,11 @@ async function submitRender(){
     });
     const d=await r.json();
     if(d.response?.id){
-      addLog('Queued — ID: '+d.response.id,'ok');
+      addLog('Queued — render ID: '+d.response.id,'ok');
       setP(40);
       await pollRender(d.response.id,title);
     } else {
-      addLog('Error: '+JSON.stringify(d).slice(0,300),'err');
+      addLog('Error: '+JSON.stringify(d).slice(0,400),'err');
       document.getElementById('renderBtn').disabled=false;
     }
   }catch(e){
@@ -355,7 +381,7 @@ async function pollRender(id,title){
       addLog('Status: '+status,'info');
       if(status==='done'&&d.response?.url){
         setP(100);
-        addLog('Done!','ok');
+        addLog('Render complete!','ok');
         document.getElementById('renderResult').innerHTML=`<div class="render-done"><div class="ri">✅</div><div><div class="rt">Polished video ready</div><div class="rs">${title} · HD MP4</div><a href="${d.response.url}" target="_blank">⬇ Download MP4</a></div></div>`;
         document.getElementById('renderBtn').disabled=false;
         return;
@@ -369,7 +395,6 @@ async function pollRender(id,title){
   addLog('Timed out — check Shotstack dashboard.','warn');
   document.getElementById('renderBtn').disabled=false;
 }
-renderPreview();
 </script>
 </body>
 </html>
