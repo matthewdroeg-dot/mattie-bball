@@ -27,8 +27,7 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
 .form-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
 .form-row label{font-size:12px;color:#555;min-width:120px}
 .form-row input,.form-row select{flex:1;min-width:0;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;padding:0 10px;height:34px;font-size:13px;color:#fff;font-family:'Inter',sans-serif}
-.form-row input:focus,.form-row select:focus{outline:none;border-color:#534AB7}
-.form-row select option{background:#1a1a1a}
+.form-row input:focus{outline:none;border-color:#534AB7}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all 0.15s}
 .btn-primary{background:#534AB7;color:#fff}
 .btn-primary:hover{background:#3C3489}
@@ -67,7 +66,7 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
 .render-done .rt{font-size:13px;font-weight:600}
 .render-done .rs{font-size:11px;color:#555;margin-top:2px}
 .render-done a{font-size:13px;color:#a89ff5;font-weight:600;margin-top:6px;display:inline-flex;align-items:center;gap:4px;text-decoration:none}
-.info-box{display:flex;gap:8px;padding:10px 12px;border-radius:8px;margin-bottom:10px;font-size:12px;line-height:1.5}
+.info-box{padding:10px 12px;border-radius:8px;margin-bottom:10px;font-size:12px;line-height:1.5}
 .info-box.amber{background:#1f1500;border:1px solid #3d2800;color:#fbbf24}
 .info-box.blue{background:#0f1e2d;border:1px solid #1e3a5f;color:#60a5fa}
 .summary-table{width:100%;font-size:13px;border-collapse:collapse}
@@ -106,12 +105,12 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
     <div class="card">
       <div class="card-title">Video elements</div>
       <div class="toggle-grid">
-        <div class="toggle-row"><div><div class="tl">Intro card</div><div class="ts">Player name, school, number, position, grad year</div></div><label class="toggle"><input type="checkbox" id="chkIntro" checked><span class="slider"></span></label></div>
-        <div class="toggle-row"><div><div class="tl">Lower third</div><div class="ts">Name + number on each clip</div></div><label class="toggle"><input type="checkbox" id="chkLower" checked><span class="slider"></span></label></div>
+        <div class="toggle-row"><div><div class="tl">Intro card</div><div class="ts">Name, school, number, position, grad year, GPA</div></div><label class="toggle"><input type="checkbox" id="chkIntro" checked><span class="slider"></span></label></div>
+        <div class="toggle-row"><div><div class="tl">Lower third</div><div class="ts">Name + school on each clip</div></div><label class="toggle"><input type="checkbox" id="chkLower" checked><span class="slider"></span></label></div>
         <div class="toggle-row"><div><div class="tl">Outro stats</div><div class="ts">Season stats close the reel</div></div><label class="toggle"><input type="checkbox" id="chkOutro" checked><span class="slider"></span></label></div>
       </div>
     </div>
-    <button class="btn btn-primary btn-full" onclick="showPanel('video')">Continue to video & stats →</button>
+    <button class="btn btn-primary btn-full" onclick="showPanel('video')">Continue →</button>
   </div>
 
   <div id="panel-video" class="panel">
@@ -154,7 +153,7 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
     <div class="page-sub">Submit to Shotstack and download your polished MP4.</div>
     <div class="info-box amber">Sandbox renders include a small Shotstack watermark.</div>
     <div class="card">
-      <div class="card-title">Render summary</div>
+      <div class="card-title">Summary</div>
       <table class="summary-table" id="summaryTable"></table>
     </div>
     <button class="btn btn-primary btn-full" id="renderBtn" onclick="submitRender()">⚡ Render polished video</button>
@@ -167,16 +166,15 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
 <script>
 const COLORS=[{h:'#534AB7',l:'Purple'},{h:'#1D9E75',l:'Teal'},{h:'#D85A30',l:'Coral'},{h:'#378ADD',l:'Blue'},{h:'#111111',l:'Black'},{h:'#BA7517',l:'Gold'},{h:'#A32D2D',l:'Red'},{h:'#ffffff',l:'White'}];
 const MUSIC=[
-  {id:'m1',l:'Full court press',d:'Hard trap, high energy',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/advertising.mp3'},
-  {id:'m2',l:'Game time',d:'Hip hop, driving beat',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/energy.mp3'},
-  {id:'m3',l:'Highlight reel',d:'Cinematic + bass',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/ambisax.mp3'},
-  {id:'m4',l:'Championship',d:'Epic orchestral',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/action-ambient.mp3'},
+  {id:'m1',l:'Full court press',d:'Hard trap',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/advertising.mp3'},
+  {id:'m2',l:'Game time',d:'Hip hop',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/energy.mp3'},
+  {id:'m3',l:'Highlight reel',d:'Cinematic',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/ambisax.mp3'},
+  {id:'m4',l:'Championship',d:'Orchestral',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/action-ambient.mp3'},
 ];
 let color='#534AB7', music=MUSIC[0];
 
 document.getElementById('colorGrid').innerHTML=COLORS.map((c,i)=>`<div class="color-chip${i===0?' on':''}" style="background:${c.h}${c.h==='#ffffff'?';border:2px solid #333':''}" title="${c.l}" onclick="pickColor('${c.h}',this)"></div>`).join('');
 function pickColor(h,el){color=h;document.querySelectorAll('.color-chip').forEach(x=>x.classList.remove('on'));el.classList.add('on');}
-
 document.getElementById('musicGrid').innerHTML=MUSIC.map((m,i)=>`<div class="music-chip${i===0?' on':''}" onclick="pickMusic('${m.id}',this)"><div style="font-size:18px">${['⚡','🔥','🌟','🏆'][i]}</div><div class="ml">${m.l}</div><div class="md">${m.d}</div></div>`).join('');
 function pickMusic(id,el){music=MUSIC.find(m=>m.id===id);document.querySelectorAll('.music-chip').forEach(x=>x.classList.remove('on'));el.classList.add('on');}
 
@@ -187,180 +185,102 @@ function showPanel(id){
   if(id==='render') renderSummary();
 }
 
-function getP(){
-  return {
-    name: document.getElementById('pName')?.value||'Mattie Droeg',
-    num: document.getElementById('pNum')?.value||'#34',
-    pos: document.getElementById('pPos')?.value||'SG / G / SF',
-    school: document.getElementById('pSchool')?.value||'Lincoln Preparatory Academy',
-    grad: document.getElementById('pGrad')?.value||'Class of 2027',
-    gpa: document.getElementById('pGpa')?.value||'',
-    height: document.getElementById('pHeight')?.value||'',
-  };
-}
-
-function getStats(){
-  return [{id:'s1',lbl:'PPG'},{id:'s2',lbl:'APG'},{id:'s3',lbl:'RPG'},{id:'s4',lbl:'FG%'},{id:'s5',lbl:'3P%'}]
-    .map(f=>({val:document.getElementById(f.id)?.value,lbl:f.lbl})).filter(s=>s.val);
-}
+function getP(){return{name:v('pName')||'Mattie Droeg',num:v('pNum')||'#34',pos:v('pPos')||'SG/G/SF',school:v('pSchool')||'Lincoln Preparatory Academy',grad:v('pGrad')||'Class of 2027',gpa:v('pGpa'),height:v('pHeight')};}
+function getStats(){return[{id:'s1',lbl:'PPG'},{id:'s2',lbl:'APG'},{id:'s3',lbl:'RPG'},{id:'s4',lbl:'FG%'},{id:'s5',lbl:'3P%'}].map(f=>({val:v(f.id),lbl:f.lbl})).filter(s=>s.val);}
+function v(id){return document.getElementById(id)?.value?.trim()||'';}
 
 function renderSummary(){
-  const p=getP();
-  const url=document.getElementById('videoUrl')?.value||'Not set';
-  const title=document.getElementById('reelTitle')?.value||'Highlight Reel';
-  const stats=getStats();
+  const p=getP(),stats=getStats(),url=v('videoUrl')||'Not set',title=v('reelTitle')||'Highlight Reel';
   document.getElementById('summaryTable').innerHTML=`
     <tr><td>Player</td><td>${p.name} · ${p.num}</td></tr>
-    <tr><td>School</td><td>${p.school} · ${p.grad}</td></tr>
-    <tr><td>Position</td><td>${p.pos}</td></tr>
-    ${p.gpa?`<tr><td>GPA</td><td>${p.gpa}</td></tr>`:''}
-    ${p.height?`<tr><td>Height</td><td>${p.height}</td></tr>`:''}
+    <tr><td>School</td><td>${p.school}</td></tr>
+    <tr><td>Details</td><td>${p.pos} · ${p.grad}${p.gpa?' · GPA '+p.gpa:''}${p.height?' · '+p.height:''}</td></tr>
     <tr><td>Reel title</td><td>${title}</td></tr>
     <tr><td>Video URL</td><td style="word-break:break-all;font-size:11px">${url}</td></tr>
-    <tr><td>Color</td><td><span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:50%;background:${color};display:inline-block;border:1px solid #333"></span>${COLORS.find(c=>c.h===color)?.l}</span></td></tr>
+    <tr><td>Color</td><td>${COLORS.find(c=>c.h===color)?.l||color}</td></tr>
     <tr><td>Music</td><td>${music.l}</td></tr>
     <tr><td>Stats</td><td>${stats.length?stats.map(s=>s.lbl+' '+s.val).join(' · '):'None'}</td></tr>`;
 }
 
-function addLog(msg,cls=''){
-  const el=document.getElementById('renderLog');
-  const ts=new Date().toLocaleTimeString('en-US',{hour12:false});
-  el.innerHTML+=`<div class="${cls}">[${ts}] ${msg}</div>`;
-  el.scrollTop=el.scrollHeight;
-}
+function addLog(msg,cls=''){const el=document.getElementById('renderLog');el.innerHTML+=`<div class="${cls}">[${new Date().toLocaleTimeString('en-US',{hour12:false})}] ${msg}</div>`;el.scrollTop=el.scrollHeight;}
 function setP(pct){document.getElementById('renderProgress').style.width=Math.min(100,pct)+'%';}
 
+function buildHTML(bg,lines){
+  const lineHTML=lines.map(l=>`<div style="font-family:Arial,sans-serif;font-size:${l.size}px;font-weight:${l.weight||400};color:${l.color};margin:${l.margin||6}px 0;letter-spacing:${l.spacing||0}px;text-transform:${l.upper?'uppercase':'none'}">${l.text}</div>`).join('');
+  return`<div style="background:${bg};width:1280px;height:720px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px;box-sizing:border-box">${lineHTML}</div>`;
+}
+
 async function submitRender(){
-  const videoUrl=document.getElementById('videoUrl')?.value?.trim();
-  if(!videoUrl){alert('Add a video URL on the Video & Stats tab first.');return;}
+  const videoUrl=v('videoUrl');
+  if(!videoUrl){alert('Add a video URL first.');return;}
   document.getElementById('renderBtn').disabled=true;
   document.getElementById('renderResult').innerHTML='';
-  document.getElementById('renderProgress').style.width='0%';
   document.getElementById('renderLog').innerHTML='';
+  setP(0);
 
   const p=getP();
-  const title=document.getElementById('reelTitle')?.value||'Highlight Reel';
-  const vlen=parseInt(document.getElementById('videoLen')?.value||60);
+  const title=v('reelTitle')||'Highlight Reel';
+  const vlen=parseInt(v('videoLen')||'60');
   const stats=getStats();
   const c=color;
   const showIntro=document.getElementById('chkIntro').checked;
   const showLower=document.getElementById('chkLower').checked;
   const showOutro=document.getElementById('chkOutro').checked;
+  const season=v('s6')||'Season Stats';
 
   addLog('Building timeline...','info');
   setP(10);
 
-  // Build details line
-  const detailParts=[p.num, p.pos, p.grad];
-  if(p.height) detailParts.push(p.height);
-  if(p.gpa) detailParts.push('GPA '+p.gpa);
-  const detailLine=detailParts.join('  |  ');
-
-  // Stat line for outro
-  const statLine=stats.map(s=>s.val+' '+s.lbl).join('   ');
-  const season=document.getElementById('s6')?.value||'Season Stats';
-
-  let videoOffset=0;
+  const tracks=[];
   const mainClips=[];
-  const overlayClips=[];
+  const lowerClips=[];
+
+  let offset=0;
 
   if(showIntro){
-    // Layer 1: black background title card - school name
-    mainClips.push({
-      asset:{type:'title',text:p.school,style:'minimal',color:'#888888',size:'small',background:'#0a0a0a'},
-      start:0,length:5,position:'center',offset:{x:0,y:0.15},
-      transition:{in:'fade',out:'fade'}
-    });
-    // Layer 2: player name - large
-    mainClips.push({
-      asset:{type:'title',text:p.name,style:'minimal',color:'#ffffff',size:'large',background:'#00000000'},
-      start:0,length:5,position:'center',offset:{x:0,y:0},
-      transition:{in:'fade',out:'fade'}
-    });
-    // Layer 3: details line
-    mainClips.push({
-      asset:{type:'title',text:detailLine,style:'minimal',color:'#aaaaaa',size:'x-small',background:'#00000000'},
-      start:0,length:5,position:'center',offset:{x:0,y:-0.15},
-      transition:{in:'fade',out:'fade'}
-    });
-    // Layer 4: reel title badge
-    mainClips.push({
-      asset:{type:'title',text:title.toUpperCase(),style:'minimal',color:'#ffffff',size:'x-small',background:c},
-      start:0,length:5,position:'center',offset:{x:0,y:-0.28},
-      transition:{in:'fade',out:'fade'}
-    });
-    videoOffset=5;
+    const detailParts=[p.num,p.pos,p.grad];
+    if(p.height) detailParts.push(p.height);
+    if(p.gpa) detailParts.push('GPA '+p.gpa);
+    const introHTML=buildHTML('#0d0d0d',[
+      {text:p.school.toUpperCase(),size:18,color:'#666666',spacing:3,upper:true,margin:4},
+      {text:p.name,size:72,weight:900,color:'#ffffff',margin:8},
+      {text:detailParts.join('  ·  '),size:20,color:'#aaaaaa',margin:4},
+      {text:title.toUpperCase(),size:16,weight:700,color:'#ffffff',spacing:3,margin:16},
+    ]);
+    mainClips.push({asset:{type:'html',html:introHTML,width:1280,height:720},start:0,length:5,transition:{in:'fade',out:'fade'}});
+    offset=5;
   }
 
-  // Main video clip
-  mainClips.push({
-    asset:{type:'video',src:videoUrl},
-    start:videoOffset,length:vlen
-  });
+  mainClips.push({asset:{type:'video',src:videoUrl},start:offset,length:vlen});
 
-  // Lower third
   if(showLower){
-    overlayClips.push({
-      asset:{type:'title',text:p.name+'  '+p.num,style:'minimal',color:'#ffffff',size:'small',background:c},
-      start:videoOffset+1,length:4,position:'bottomLeft',offset:{x:0.05,y:-0.05},
-      transition:{in:'slideRight',out:'slideLeft'}
-    });
-    overlayClips.push({
-      asset:{type:'title',text:p.school+' · '+p.pos,style:'minimal',color:'#dddddd',size:'x-small',background:'#000000bb'},
-      start:videoOffset+1,length:4,position:'bottomLeft',offset:{x:0.05,y:-0.12},
-      transition:{in:'slideRight',out:'slideLeft'}
-    });
+    const lowerHTML=`<div style="font-family:Arial,sans-serif;display:inline-block"><div style="background:${c};padding:8px 20px 4px"><div style="font-size:22px;font-weight:700;color:#fff;letter-spacing:1px">${p.name} ${p.num}</div></div><div style="background:rgba(0,0,0,0.75);padding:4px 20px 8px"><div style="font-size:14px;color:#ddd;letter-spacing:0.5px">${p.school} · ${p.pos}</div></div></div>`;
+    lowerClips.push({asset:{type:'html',html:lowerHTML,width:600,height:80},start:offset+1,length:4,position:'bottomLeft',offset:{x:0.02,y:-0.04},transition:{in:'slideRight',out:'slideLeft'}});
   }
 
-  // Outro
-  const outroStart=videoOffset+vlen;
+  const outroStart=offset+vlen;
   if(showOutro){
-    mainClips.push({
-      asset:{type:'title',text:p.name,style:'minimal',color:'#ffffff',size:'large',background:'#0a0a0a'},
-      start:outroStart,length:6,position:'center',offset:{x:0,y:0.15},
-      transition:{in:'fade',out:'fade'}
-    });
-    mainClips.push({
-      asset:{type:'title',text:p.school+' · '+p.grad,style:'minimal',color:'#888888',size:'x-small',background:'#00000000'},
-      start:outroStart,length:6,position:'center',offset:{x:0,y:0.02},
-      transition:{in:'fade',out:'fade'}
-    });
-    if(stats.length){
-      mainClips.push({
-        asset:{type:'title',text:statLine,style:'minimal',color:'#ffffff',size:'medium',background:'#00000000'},
-        start:outroStart,length:6,position:'center',offset:{x:0,y:-0.12},
-        transition:{in:'fade',out:'fade'}
-      });
-      mainClips.push({
-        asset:{type:'title',text:season,style:'minimal',color:'#666666',size:'x-small',background:'#00000000'},
-        start:outroStart,length:6,position:'center',offset:{x:0,y:-0.24},
-        transition:{in:'fade',out:'fade'}
-      });
-    }
+    const statItems=stats.map(s=>`<div style="text-align:center;margin:0 24px"><div style="font-size:48px;font-weight:900;color:#fff;line-height:1">${s.val}</div><div style="font-size:13px;color:#777;letter-spacing:2px;text-transform:uppercase;margin-top:6px">${s.lbl}</div></div>`).join('');
+    const outroHTML=`<div style="background:#0d0d0d;width:1280px;height:720px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px;box-sizing:border-box;font-family:Arial,sans-serif"><div style="font-size:13px;letter-spacing:3px;color:#555;text-transform:uppercase;margin-bottom:12px">${season}</div><div style="font-size:48px;font-weight:900;color:#fff;margin-bottom:6px">${p.name}</div><div style="font-size:16px;color:#666;margin-bottom:36px">${p.school} · ${p.grad}${p.gpa?' · GPA '+p.gpa:''}</div>${statItems?`<div style="display:flex;justify-content:center;flex-wrap:wrap">${statItems}</div>`:''}<div style="width:48px;height:3px;background:${c};margin-top:36px;border-radius:2px"></div></div>`;
+    mainClips.push({asset:{type:'html',html:outroHTML,width:1280,height:720},start:outroStart,length:6,transition:{in:'fade',out:'fade'}});
   }
 
-  const timeline={
-    background:'#000000',
-    soundtrack:{src:music.url,effect:'fadeOut',volume:0.6},
-    tracks:[{clips:mainClips}]
-  };
-  if(overlayClips.length) timeline.tracks.push({clips:overlayClips});
+  tracks.push({clips:mainClips});
+  if(lowerClips.length) tracks.push({clips:lowerClips});
+
+  const timeline={background:'#000000',soundtrack:{src:music.url,effect:'fadeOut',volume:0.6},tracks};
 
   addLog('Submitting to Shotstack...','info');
   setP(25);
 
   try{
-    const r=await fetch('/api/ss/render',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({timeline,output:{format:'mp4',resolution:'hd'}})
-    });
+    const r=await fetch('/api/ss/render',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({timeline,output:{format:'mp4',resolution:'hd'}})});
     const d=await r.json();
     if(d.response?.id){
-      addLog('Queued — render ID: '+d.response.id,'ok');
+      addLog('Queued — ID: '+d.response.id,'ok');
       setP(40);
       await pollRender(d.response.id,title);
-    } else {
+    }else{
       addLog('Error: '+JSON.stringify(d).slice(0,400),'err');
       document.getElementById('renderBtn').disabled=false;
     }
@@ -381,8 +301,8 @@ async function pollRender(id,title){
       addLog('Status: '+status,'info');
       if(status==='done'&&d.response?.url){
         setP(100);
-        addLog('Render complete!','ok');
-        document.getElementById('renderResult').innerHTML=`<div class="render-done"><div class="ri">✅</div><div><div class="rt">Polished video ready</div><div class="rs">${title} · HD MP4</div><a href="${d.response.url}" target="_blank">⬇ Download MP4</a></div></div>`;
+        addLog('Done!','ok');
+        document.getElementById('renderResult').innerHTML=`<div class="render-done"><div class="ri">✅</div><div><div class="rt">Video ready</div><div class="rs">${title} · HD MP4</div><a href="${d.response.url}" target="_blank">⬇ Download MP4</a></div></div>`;
         document.getElementById('renderBtn').disabled=false;
         return;
       }else if(status==='failed'){
@@ -390,9 +310,9 @@ async function pollRender(id,title){
         document.getElementById('renderBtn').disabled=false;
         return;
       }
-    }catch(e){addLog('Poll error: '+e.message,'err');}
+    }catch(e){addLog('Poll: '+e.message,'err');}
   }
-  addLog('Timed out — check Shotstack dashboard.','warn');
+  addLog('Timed out.','warn');
   document.getElementById('renderBtn').disabled=false;
 }
 </script>
