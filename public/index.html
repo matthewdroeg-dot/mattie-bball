@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mattie Droeg — Video Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100vh}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:280px;background:#111;border-right:1px solid #222;padding:24px 0;overflow-y:auto;z-index:10}
+.main{margin-left:280px;padding:32px;min-height:100vh}
+.logo{padding:0 24px 24px;border-bottom:1px solid #222;margin-bottom:24px}
+.logo h1{font-size:18px;font-weight:700;color:#fff}
+.logo p{font-size:12px;color:#666;margin-top:3px}
+.nav-section{padding:0 24px;margin-bottom:8px}
+.nav-label{font-size:10px;letter-spacing:2px;color:#444;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13px;color:#888;margin-bottom:2px;transition:all 0.15s}
+.nav-item:hover{background:#1a1a1a;color:#fff}
+.nav-item.active{background:#1e1a3a;color:#a89ff5}
+.nav-item .ni-icon{width:18px;text-align:center;font-size:15px}
+.panel{display:none}.panel.active{display:block}
+.page-title{font-size:24px;font-weight:700;margin-bottom:6px}
+.page-sub{font-size:13px;color:#666;margin-bottom:28px}
+.card{background:#161616;border:1px solid #222;border-radius:12px;padding:20px;margin-bottom:16px}
+.card-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title svg{opacity:0.5}
+.badge{font-size:10px;padding:2px 8px;border-radius:999px;font-weight:600}
+.badge-purple{background:#1e1a3a;color:#a89ff5}
+.badge-green{background:#0f2d1a;color:#4ade80}
+.badge-amber{background:#2d1f00;color:#fbbf24}
+.badge-red{background:#2d0f0f;color:#f87171}
+.form-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.form-row label{font-size:12px;color:#666;min-width:130px}
+.form-row input,.form-row select,.form-row textarea{flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:0 12px;height:36px;font-size:13px;color:#fff;font-family:'Inter',sans-serif;transition:border 0.15s}
+.form-row input:focus,.form-row select:focus{outline:none;border-color:#534AB7}
+.form-row select option{background:#1a1a1a}
+.form-row textarea{height:80px;padding:10px 12px;resize:vertical}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;transition:all 0.15s;border:none;font-family:'Inter',sans-serif}
+.btn-primary{background:#534AB7;color:#fff}
+.btn-primary:hover{background:#3C3489}
+.btn-primary:disabled{opacity:0.4;cursor:not-allowed}
+.btn-outline{background:transparent;color:#888;border:1px solid #2a2a2a}
+.btn-outline:hover{background:#1a1a1a;color:#fff}
+.btn-full{width:100%;justify-content:center;padding:12px}
+.color-grid{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.color-chip{width:36px;height:36px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all 0.15s}
+.color-chip.on{border-color:#fff;transform:scale(1.1)}
+.music-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.music-chip{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:12px;cursor:pointer;transition:all 0.15s}
+.music-chip:hover{border-color:#534AB7}
+.music-chip.on{border-color:#534AB7;background:#1e1a3a}
+.music-chip .ml{font-size:12px;font-weight:600;color:#fff;margin-top:6px}
+.music-chip .md{font-size:11px;color:#666;margin-top:2px}
+.music-chip .mi{font-size:20px}
+.toggle-grid{display:flex;flex-direction:column;gap:10px}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #1e1e1e}
+.toggle-row:last-child{border-bottom:none}
+.toggle-row .tr-label{font-size:13px;color:#ccc}
+.toggle-row .tr-sub{font-size:11px;color:#555;margin-top:2px}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:#2a2a2a;border-radius:999px;cursor:pointer;transition:0.2s}
+.toggle-slider:before{content:'';position:absolute;width:16px;height:16px;left:3px;top:3px;background:#666;border-radius:50%;transition:0.2s}
+.toggle input:checked+.toggle-slider{background:#534AB7}
+.toggle input:checked+.toggle-slider:before{transform:translateX(18px);background:#fff}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.stat-input{display:flex;flex-direction:column;gap:5px}
+.stat-input label{font-size:11px;color:#555;font-weight:500}
+.stat-input input{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:0 10px;height:34px;font-size:13px;color:#fff;font-family:'Inter',sans-serif}
+.stat-input input:focus{outline:none;border-color:#534AB7}
+.preview-wrap{background:#000;border-radius:12px;aspect-ratio:16/9;overflow:hidden;margin-bottom:16px;position:relative;display:flex;align-items:center;justify-content:center}
+.preview-nav{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.preview-nav button{padding:6px 14px;font-size:11px;font-weight:600;border-radius:6px;cursor:pointer;border:1px solid #2a2a2a;background:transparent;color:#666;transition:all 0.15s;font-family:'Inter',sans-serif}
+.preview-nav button.active{background:#534AB7;color:#fff;border-color:#534AB7}
+.log{background:#0d0d0d;border:1px solid #1e1e1e;border-radius:8px;padding:14px;font-size:12px;font-family:'Courier New',monospace;color:#666;max-height:200px;overflow-y:auto;line-height:1.9;margin-top:10px}
+.log .ok{color:#4ade80}.log .err{color:#f87171}.log .info{color:#60a5fa}.log .warn{color:#fbbf24}
+.progress-bar{height:4px;background:#1e1e1e;border-radius:999px;overflow:hidden;margin:10px 0}
+.progress-fill{height:100%;background:#534AB7;border-radius:999px;transition:width 0.4s ease;width:0%}
+.render-done{background:#0f2d1a;border:1px solid #166534;border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:14px;margin-top:12px}
+.render-done .rd-icon{font-size:28px;color:#4ade80}
+.render-done .rd-title{font-size:14px;font-weight:600;color:#fff}
+.render-done .rd-sub{font-size:12px;color:#666;margin-top:2px}
+.render-done .rd-link{font-size:13px;color:#a89ff5;font-weight:600;cursor:pointer;margin-top:6px;display:inline-flex;align-items:center;gap:4px;text-decoration:none}
+.render-done .rd-link:hover{color:#fff}
+.upload-zone{border:1.5px dashed #2a2a2a;border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:all 0.15s;margin-bottom:10px}
+.upload-zone:hover{border-color:#534AB7;background:#1a1a2a}
+.upload-zone p{font-size:13px;color:#666;margin-top:8px}
+.upload-zone span{font-size:11px;color:#444}
+.vlist{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+.vitem{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:8px;padding:8px 12px;background:#1a1a1a;border-radius:8px;font-size:12px}
+.vitem .vn{color:#ccc;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vitem .vs{color:#444}
+.vitem .vst .badge{font-size:10px}
+.vitem .vr{cursor:pointer;color:#444;font-size:16px}
+.vitem .vr:hover{color:#f87171}
+.info-box{display:flex;gap:10px;padding:12px 14px;border-radius:8px;margin-bottom:12px}
+.info-box.blue{background:#0f1e2d;border:1px solid #1e3a5f}
+.info-box.blue p{font-size:12px;color:#60a5fa;line-height:1.5}
+.info-box.amber{background:#1f1500;border:1px solid #3d2800}
+.info-box.amber p{font-size:12px;color:#fbbf24;line-height:1.5}
+.summary-table{width:100%;font-size:13px;border-collapse:collapse}
+.summary-table td{padding:8px 0;border-bottom:1px solid #1e1e1e;vertical-align:top}
+.summary-table td:first-child{color:#555;width:140px}
+.summary-table td:last-child{color:#ccc;text-align:right}
+.summary-table tr:last-child td{border-bottom:none}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="logo">
+    <h1>🏀 Mattie Droeg</h1>
+    <p>#34 · SG/G/SF · LPA · 2027</p>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Video Builder</div>
+    <div class="nav-item active" onclick="showPanel('design')"><span class="ni-icon">🎨</span> Design</div>
+    <div class="nav-item" onclick="showPanel('video')"><span class="ni-icon">🎬</span> Video & Stats</div>
+    <div class="nav-item" onclick="showPanel('preview')"><span class="ni-icon">👁</span> Preview</div>
+    <div class="nav-item" onclick="showPanel('render')"><span class="ni-icon">⚡</span> Render</div>
+  </div>
+  <div class="nav-section" style="margin-top:16px">
+    <div class="nav-label">Film Analysis</div>
+    <div class="nav-item" onclick="showPanel('upload')"><span class="ni-icon">☁</span> Upload Games</div>
+    <div class="nav-item" onclick="showPanel('analyze')"><span class="ni-icon">🔍</span> Analyze Skills</div>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- DESIGN -->
+  <div id="panel-design" class="panel active">
+    <div class="page-title">Design</div>
+    <div class="page-sub">Set the visual style applied to every video you render.</div>
+
+    <div class="card">
+      <div class="card-title">Brand color</div>
+      <p style="font-size:12px;color:#555;margin-bottom:12px">Used on intro card, lower thirds, skill title cards, and outro.</p>
+      <div class="color-grid" id="colorGrid"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Hype music track</div>
+      <div class="music-grid" id="musicGrid"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Video elements</div>
+      <div class="toggle-grid">
+        <div class="toggle-row">
+          <div><div class="tr-label">Animated intro card</div><div class="tr-sub">4 sec — name, school, reel title</div></div>
+          <label class="toggle"><input type="checkbox" id="chkIntro" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div><div class="tr-label">Lower third name bug</div><div class="tr-sub">Fades in on each clip — player ID</div></div>
+          <label class="toggle"><input type="checkbox" id="chkLower" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div><div class="tr-label">Skill category title card</div><div class="tr-sub">2 sec card before clip section</div></div>
+          <label class="toggle"><input type="checkbox" id="chkSkill" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div><div class="tr-label">Outro stats card</div><div class="tr-sub">5 sec — season stats close the reel</div></div>
+          <label class="toggle"><input type="checkbox" id="chkOutro" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div><div class="tr-label">Cinematic color filter</div><div class="tr-sub">Contrast boost + slight vignette</div></div>
+          <label class="toggle"><input type="checkbox" id="chkFilter" checked><span class="toggle-slider"></span></label>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="showPanel('video')">Continue to video & stats →</button>
+  </div>
+
+  <!-- VIDEO & STATS -->
+  <div id="panel-video" class="panel">
+    <div class="page-title">Video & Stats</div>
+    <div class="page-sub">Set the source video and stats for this reel.</div>
+
+    <div class="card">
+      <div class="card-title">Source video</div>
+      <div class="info-box blue">
+        <p>Paste your Dropbox direct link. Make sure the URL ends in <strong>dl=1</strong>. The video must be publicly accessible.</p>
+      </div>
+      <div class="form-row"><label>Dropbox URL</label><input type="text" id="videoUrl" placeholder="https://www.dropbox.com/...dl=1"></div>
+      <div class="form-row"><label>Reel title</label><input type="text" id="reelTitle" placeholder="e.g. 3-Point Shooting vs Veritas"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Outro stats <span class="badge badge-purple">this reel only</span></div>
+      <p style="font-size:12px;color:#555;margin-bottom:14px">Leave blank to hide. Changes each video.</p>
+      <div class="stat-grid">
+        <div class="stat-input"><label>PPG</label><input type="text" id="s1" placeholder="18.4"></div>
+        <div class="stat-input"><label>APG</label><input type="text" id="s2" placeholder="4.2"></div>
+        <div class="stat-input"><label>RPG</label><input type="text" id="s3" placeholder="5.1"></div>
+        <div class="stat-input"><label>FG%</label><input type="text" id="s4" placeholder="44%"></div>
+        <div class="stat-input"><label>3P%</label><input type="text" id="s5" placeholder="38%"></div>
+        <div class="stat-input"><label>Season</label><input type="text" id="s6" placeholder="2024-25"></div>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="showPanel('preview')">Preview design →</button>
+  </div>
+
+  <!-- PREVIEW -->
+  <div id="panel-preview" class="panel">
+    <div class="page-title">Preview</div>
+    <div class="page-sub">See exactly how each element will look before rendering.</div>
+
+    <div class="preview-nav">
+      <button class="active" onclick="setPreview('intro',this)">Intro card</button>
+      <button onclick="setPreview('skill',this)">Skill card</button>
+      <button onclick="setPreview('lower',this)">Lower third</button>
+      <button onclick="setPreview('outro',this)">Outro stats</button>
+    </div>
+
+    <div class="preview-wrap" id="previewWrap"></div>
+
+    <div class="card">
+      <p id="previewDesc" style="font-size:13px;color:#666;line-height:1.6"></p>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="showPanel('render')">Looks good — render it →</button>
+  </div>
+
+  <!-- RENDER -->
+  <div id="panel-render" class="panel">
+    <div class="page-title">Render</div>
+    <div class="page-sub">Submit to Shotstack and download your polished MP4.</div>
+
+    <div class="info-box amber">
+      <p>Sandbox renders include a small Shotstack watermark. Switch to Production key in server.js for clean final output.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Render summary</div>
+      <table class="summary-table" id="summaryTable"></table>
+    </div>
+
+    <button class="btn btn-primary btn-full" id="renderBtn" onclick="submitRender()">⚡ Render polished video</button>
+    <div class="progress-bar"><div class="progress-fill" id="renderProgress"></div></div>
+    <div class="log" id="renderLog"></div>
+    <div id="renderResult"></div>
+  </div>
+
+  <!-- UPLOAD -->
+  <div id="panel-upload" class="panel">
+    <div class="page-title">Upload game footage</div>
+    <div class="page-sub">Upload videos directly into Twelve Labs for AI analysis.</div>
+    <div class="card">
+      <div class="card-title">Game videos <span class="badge badge-purple" id="vidCount">0 videos</span></div>
+      <div class="upload-zone" onclick="document.getElementById('fInput').click()">
+        <div style="font-size:32px">🎬</div>
+        <p>Drop all game videos here or click to browse</p>
+        <span>MP4, MOV · select multiple at once</span>
+      </div>
+      <input type="file" id="fInput" multiple accept="video/*" style="display:none" onchange="handleFiles(this)">
+      <div class="vlist" id="vlist"></div>
+    </div>
+    <button class="btn btn-primary btn-full" id="uploadBtn" onclick="uploadAllParallel()" disabled>⚡ Upload all to Twelve Labs</button>
+    <div class="progress-bar" style="display:none" id="upProgressWrap"><div class="progress-fill" id="upProgress"></div></div>
+    <div class="log" id="upLog" style="display:none"></div>
+  </div>
+
+  <!-- ANALYZE -->
+  <div id="panel-analyze" class="panel">
+    <div class="page-title">Analyze skills</div>
+    <div class="page-sub">AI searches every indexed game and builds skill reels automatically.</div>
+    <div class="card">
+      <div class="card-title">Select skill categories <span class="badge badge-purple" id="skillCount">0 selected</span></div>
+      <div id="skillGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Settings</div>
+      <div class="form-row"><label>Clips per reel</label><input type="number" id="clipCount" value="8" min="3" max="20" style="max-width:70px"></div>
+      <div class="form-row"><label>Min confidence</label>
+        <select id="minConf">
+          <option value="0.5">Low — everything</option>
+          <option value="0.7" selected>Medium — good plays</option>
+          <option value="0.85">High — best only</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full" id="analyzeBtn" onclick="runAnalysis()">🔍 Run analysis</button>
+    <div class="progress-bar" style="display:none" id="anProgressWrap"><div class="progress-fill" id="anProgress"></div></div>
+    <div class="log" id="anLog" style="display:none"></div>
+    <div id="reelResults"></div>
+  </div>
+
+</main>
+
+<script>
+const PLAYER={name:'Mattie Droeg',number:'#34',positions:'SG / G / SF',school:'Lincoln Preparatory Academy',grad:'Class of 2027'};
+const COLORS=[
+  {hex:'#534AB7',label:'Purple'},{hex:'#1D9E75',label:'Teal'},
+  {hex:'#D85A30',label:'Coral'},{hex:'#378ADD',label:'Blue'},
+  {hex:'#111111',label:'Black'},{hex:'#BA7517',label:'Gold'},
+  {hex:'#A32D2D',label:'Red'},{hex:'#ffffff',label:'White'},
+];
+const MUSIC=[
+  {id:'hype1',icon:'⚡',label:'Full court press',desc:'Hard trap, high energy',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/advertising.mp3'},
+  {id:'hype2',icon:'🔥',label:'Game time',desc:'Hip hop, driving beat',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/energy.mp3'},
+  {id:'hype3',icon:'🌟',label:'Highlight reel',desc:'Cinematic + bass',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/ambisax.mp3'},
+  {id:'hype4',icon:'🏆',label:'Championship',desc:'Epic orchestral',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/action-ambient.mp3'},
+];
+const SKILLS=[
+  {id:'shooting',label:'Perimeter shooting',q:'player catching and shooting jump shot three pointer on the perimeter'},
+  {id:'ballhandling',label:'Ball handling',q:'player dribbling crossover hesitation move'},
+  {id:'finishing',label:'Finishing at rim',q:'player driving to basket layup floater finishing'},
+  {id:'defense',label:'On-ball defense',q:'player on ball defense defensive stance steal block'},
+  {id:'passing',label:'Passing & vision',q:'player making pass assist drive and kick'},
+  {id:'offball',label:'Off-ball movement',q:'player cutting to basket without ball backdoor cut'},
+  {id:'rebounding',label:'Rebounding',q:'player grabbing rebound boxing out'},
+  {id:'transition',label:'Transition',q:'player running transition fast break pushing pace'},
+  {id:'clutch',label:'Clutch moments',q:'clutch play late game big shot important basket'},
+  {id:'hustle',label:'Hustle plays',q:'player diving loose ball charge hustle'},
+  {id:'postplay',label:'Post play',q:'player in post footwork drop step post move'},
+  {id:'leadership',label:'Leadership',q:'player talking teammates calling play leading'},
+];
+
+let selectedColor='#534AB7';
+let selectedMusic='hype1';
+let currentPreview='intro';
+let files=[];
+let selectedSkills=new Set();
+
+// Build color grid
+const cg=document.getElementById('colorGrid');
+COLORS.forEach(c=>{
+  const chip=document.createElement('div');
+  chip.className='color-chip'+(c.hex===selectedColor?' on':'');
+  chip.style.background=c.hex;
+  chip.title=c.label;
+  if(c.hex==='#ffffff') chip.style.border='2px solid #333';
+  chip.onclick=()=>{selectedColor=c.hex;document.querySelectorAll('.color-chip').forEach(x=>x.classList.remove('on'));chip.classList.add('on');};
+  cg.appendChild(chip);
+});
+
+// Build music grid
+const mg=document.getElementById('musicGrid');
+MUSIC.forEach(m=>{
+  const chip=document.createElement('div');
+  chip.className='music-chip'+(m.id===selectedMusic?' on':'');
+  chip.innerHTML=`<div class="mi">${m.icon}</div><div class="ml">${m.label}</div><div class="md">${m.desc}</div>`;
+  chip.onclick=()=>{selectedMusic=m.id;document.querySelectorAll('.music-chip').forEach(x=>x.classList.remove('on'));chip.classList.add('on');};
+  mg.appendChild(chip);
+});
+
+// Build skill grid
+const sg=document.getElementById('skillGrid');
+SKILLS.forEach(s=>{
+  const chip=document.createElement('div');
+  chip.style.cssText='border:1px solid #2a2a2a;border-radius:8px;padding:10px 12px;cursor:pointer;transition:all 0.15s;font-size:12px;color:#888;';
+  chip.textContent=s.label;
+  chip.onclick=()=>{
+    if(selectedSkills.has(s.id)){selectedSkills.delete(s.id);chip.style.borderColor='#2a2a2a';chip.style.background='';chip.style.color='#888';}
+    else{selectedSkills.add(s.id);chip.style.borderColor='#534AB7';chip.style.background='#1e1a3a';chip.style.color='#a89ff5';}
+    document.getElementById('skillCount').textContent=selectedSkills.size+' selected';
+  };
+  sg.appendChild(chip);
+});
+
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const navMap={design:0,video:1,preview:2,render:3,upload:4,analyze:5};
+  document.querySelectorAll('.nav-item')[navMap[id]]?.classList.add('active');
+  if(id==='preview'){renderPreview();}
+  if(id==='render'){renderSummary();}
+}
+
+function setPreview(type,btn){
+  currentPreview=type;
+  document.querySelectorAll('.preview-nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPreview();
+}
+
+function getStats(){
+  return [
+    {id:'s1',lbl:'PPG'},{id:'s2',lbl:'APG'},{id:'s3',lbl:'RPG'},
+    {id:'s4',lbl:'FG%'},{id:'s5',lbl:'3P%'}
+  ].map(f=>({val:document.getElementById(f.id)?.value,lbl:f.lbl})).filter(s=>s.val);
+}
+
+function renderPreview(){
+  const wrap=document.getElementById('previewWrap');
+  const desc=document.getElementById('previewDesc');
+  const c=selectedColor;
+  const title=document.getElementById('reelTitle')?.value||'Highlight Reel';
+  const stats=getStats();
+
+  if(currentPreview==='intro'){
+    wrap.innerHTML=`<div style="width:100%;height:100%;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem">
+      <div style="font-size:11px;letter-spacing:4px;color:#555;text-transform:uppercase;margin-bottom:14px">${PLAYER.school}</div>
+      <div style="font-size:clamp(24px,4vw,52px);font-weight:900;color:#fff;letter-spacing:1px;margin-bottom:8px">${PLAYER.name}</div>
+      <div style="font-size:clamp(11px,1.5vw,16px);color:#777;letter-spacing:2px;margin-bottom:18px">${PLAYER.number} · ${PLAYER.positions} · ${PLAYER.grad}</div>
+      <div style="background:${c};color:#fff;font-size:clamp(9px,1.2vw,13px);font-weight:700;padding:7px 20px;letter-spacing:3px;text-transform:uppercase;border-radius:4px">${title}</div>
+    </div>`;
+    desc.textContent='4-second animated intro card. Fades in with school name, player name, number, position, grad year, and reel title.';
+  } else if(currentPreview==='skill'){
+    wrap.innerHTML=`<div style="width:100%;height:100%;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+      <div style="font-size:10px;letter-spacing:4px;color:#555;text-transform:uppercase;margin-bottom:10px">skill spotlight</div>
+      <div style="font-size:clamp(20px,3.5vw,44px);font-weight:900;color:#fff">${title}</div>
+      <div style="width:50px;height:3px;background:${c};border-radius:2px;margin-top:14px"></div>
+    </div>`;
+    desc.textContent='2-second skill title card shown at the top of the reel. Keeps the video organized for coaches.';
+  } else if(currentPreview==='lower'){
+    wrap.innerHTML=`<div style="width:100%;height:100%;background:linear-gradient(160deg,#1a1a2a,#2a2a1a);display:flex;align-items:flex-end;padding:16px;position:relative">
+      <div style="color:#333;font-size:12px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">[ game footage ]</div>
+      <div style="background:${c}ee;padding:8px 16px;border-radius:4px;display:inline-block">
+        <div style="font-size:clamp(12px,1.8vw,16px);font-weight:700;color:#fff">${PLAYER.name}</div>
+        <div style="font-size:clamp(9px,1.2vw,12px);color:rgba(255,255,255,0.75);margin-top:2px;letter-spacing:0.5px">${PLAYER.number} · ${PLAYER.positions} · ${PLAYER.school}</div>
+      </div>
+    </div>`;
+    desc.textContent='Lower third name bug. Slides in 1 second after each clip starts, holds for 3 seconds. Keeps Mattie identified for every coach watching.';
+  } else if(currentPreview==='outro'){
+    const statHtml=stats.length?`<div style="display:flex;gap:clamp(12px,2.5vw,32px);flex-wrap:wrap;justify-content:center">${stats.map(s=>`<div style="text-align:center"><div style="font-size:clamp(20px,3vw,36px);font-weight:900;color:#fff">${s.val}</div><div style="font-size:10px;color:#666;letter-spacing:2px;text-transform:uppercase;margin-top:4px">${s.lbl}</div></div>`).join('')}</div>`:'<div style="color:#444;font-size:12px">Add stats on the Video & Stats tab</div>';
+    wrap.innerHTML=`<div style="width:100%;height:100%;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:2rem;text-align:center">
+      <div>
+        <div style="font-size:10px;letter-spacing:3px;color:#555;text-transform:uppercase;margin-bottom:8px">${document.getElementById('s6')?.value||'Season Stats'}</div>
+        <div style="font-size:clamp(18px,2.5vw,30px);font-weight:800;color:#fff">${PLAYER.name}</div>
+        <div style="font-size:11px;color:#555;margin-top:4px">${PLAYER.school} · ${PLAYER.grad}</div>
+      </div>
+      ${statHtml}
+      <div style="width:40px;height:3px;background:${c};border-radius:2px"></div>
+    </div>`;
+    desc.textContent='5-second outro stats card. Season numbers displayed as coaches finish watching the reel.';
+  }
+}
+
+function renderSummary(){
+  const url=document.getElementById('videoUrl')?.value||'Not set';
+  const title=document.getElementById('reelTitle')?.value||'Highlight Reel';
+  const music=MUSIC.find(m=>m.id===selectedMusic);
+  const color=COLORS.find(c=>c.hex===selectedColor);
+  const stats=getStats();
+  document.getElementById('summaryTable').innerHTML=`
+    <tr><td>Player</td><td>${PLAYER.name} · ${PLAYER.number}</td></tr>
+    <tr><td>School</td><td>${PLAYER.school} · ${PLAYER.grad}</td></tr>
+    <tr><td>Reel title</td><td>${title}</td></tr>
+    <tr><td>Source video</td><td style="word-break:break-all;max-width:300px">${url}</td></tr>
+    <tr><td>Brand color</td><td><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:50%;background:${selectedColor};display:inline-block;border:1px solid #333"></span>${color?.label}</span></td></tr>
+    <tr><td>Music</td><td>${music?.label} — ${music?.desc}</td></tr>
+    <tr><td>Stats on outro</td><td>${stats.length?stats.map(s=>s.lbl+' '+s.val).join(' · '):'None added'}</td></tr>
+  `;
+}
+
+function addLog(elId,msg,cls=''){
+  const el=document.getElementById(elId);
+  el.style.display='block';
+  const ts=new Date().toLocaleTimeString('en-US',{hour12:false});
+  el.innerHTML+=`<div class="${cls}">[${ts}] ${msg}</div>`;
+  el.scrollTop=el.scrollHeight;
+}
+
+function setProgress(id,pct){document.getElementById(id).style.width=Math.min(100,pct)+'%';}
+
+async function submitRender(){
+  const videoUrl=document.getElementById('videoUrl')?.value?.trim();
+  if(!videoUrl){alert('Add a Dropbox video URL on the Video & Stats tab first.');return;}
+  document.getElementById('renderBtn').disabled=true;
+  document.getElementById('renderResult').innerHTML='';
+  document.getElementById('renderProgress').style.width='0%';
+  const title=document.getElementById('reelTitle')?.value||'Highlight Reel';
+  const stats=getStats();
+  const music=MUSIC.find(m=>m.id===selectedMusic);
+  const c=selectedColor;
+
+  addLog('renderLog','Building Shotstack timeline...','info');
+  setProgress('renderProgress',10);
+
+  const introHtml=`<div style="font-family:Arial,sans-serif;text-align:center;padding:40px 30px;background:#111;width:1280px;height:720px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-sizing:border-box"><p style="font-size:14px;letter-spacing:4px;color:#555;text-transform:uppercase;margin-bottom:16px">${PLAYER.school}</p><h1 style="font-size:60px;font-weight:900;color:#fff;margin:0 0 10px;letter-spacing:1px">${PLAYER.name}</h1><p style="font-size:18px;color:#777;letter-spacing:2px;margin:0 0 22px">${PLAYER.number} &nbsp;·&nbsp; ${PLAYER.positions} &nbsp;·&nbsp; ${PLAYER.grad}</p><div style="background:${c};color:#fff;font-size:13px;font-weight:700;padding:8px 24px;letter-spacing:3px;text-transform:uppercase;border-radius:4px">${title}</div></div>`;
+  const skillHtml=`<div style="font-family:Arial,sans-serif;text-align:center;background:#111;width:1280px;height:720px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-sizing:border-box"><p style="font-size:12px;letter-spacing:4px;color:#555;text-transform:uppercase;margin-bottom:12px">skill spotlight</p><h2 style="font-size:50px;font-weight:900;color:#fff;margin:0 0 16px">${title}</h2><div style="width:60px;height:4px;background:${c};border-radius:2px"></div></div>`;
+  const lowerHtml=`<div style="font-family:Arial,sans-serif;background:${c}ee;padding:10px 18px;border-radius:4px;display:inline-block"><p style="font-size:17px;font-weight:700;color:#fff;margin:0">${PLAYER.name}</p><p style="font-size:12px;color:rgba(255,255,255,0.78);margin:3px 0 0;letter-spacing:0.5px">${PLAYER.number} · ${PLAYER.positions} · ${PLAYER.school}</p></div>`;
+  const statItems=stats.map(s=>`<div style="text-align:center;margin:0 18px"><div style="font-size:40px;font-weight:900;color:#fff;line-height:1">${s.val}</div><div style="font-size:11px;color:#666;letter-spacing:2px;text-transform:uppercase;margin-top:6px">${s.lbl}</div></div>`).join('');
+  const outroHtml=`<div style="font-family:Arial,sans-serif;background:#111;width:1280px;height:720px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-sizing:border-box;padding:40px"><p style="font-size:12px;letter-spacing:3px;color:#555;text-transform:uppercase;margin-bottom:14px">${document.getElementById('s6')?.value||'Season Stats'}</p><h2 style="font-size:38px;font-weight:800;color:#fff;margin:0 0 6px">${PLAYER.name}</h2><p style="font-size:13px;color:#666;margin:0 0 28px">${PLAYER.school} &nbsp;·&nbsp; ${PLAYER.grad}</p><div style="display:flex;flex-wrap:wrap;justify-content:center">${statItems||'<p style="color:#444;font-size:14px">Lincoln Preparatory Academy</p>'}</div><div style="width:40px;height:3px;background:${c};border-radius:2px;margin-top:28px"></div></div>`;
+
+  const timeline={
+    background:'#000000',
+    soundtrack:{src:music.url,effect:'fadeOut',volume:0.65},
+    tracks:[
+      {clips:[
+        {asset:{type:'html',html:introHtml,width:1280,height:720},start:0,length:4,transition:{in:'fade',out:'fade'}},
+        {asset:{type:'html',html:skillHtml,width:1280,height:720},start:4,length:2.5,transition:{in:'fade',out:'fade'}},
+        {asset:{type:'video',src:videoUrl},start:6.5,length:60},
+        {asset:{type:'html',html:outroHtml,width:1280,height:720},start:66.5,length:5,transition:{in:'fade',out:'fade'}},
+      ]},
+      {clips:[
+        {asset:{type:'html',html:lowerHtml,width:700,height:80},start:8,length:4,position:'bottomLeft',offset:{x:0.02,y:-0.05},transition:{in:'slideRight',out:'slideLeft'}},
+      ]},
+    ]
+  };
+
+  addLog('renderLog','Submitting to Shotstack via server...','info');
+  setProgress('renderProgress',25);
+
+  try{
+    const r=await fetch('/api/ss/render',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({timeline,output:{format:'mp4',resolution:'hd'}})
+    });
+    const d=await r.json();
+    if(d.response?.id){
+      addLog('renderLog','Render queued — ID: '+d.response.id,'ok');
+      setProgress('renderProgress',40);
+      await pollRender(d.response.id);
+    } else {
+      addLog('renderLog','Error: '+JSON.stringify(d).slice(0,200),'err');
+      document.getElementById('renderBtn').disabled=false;
+    }
+  }catch(e){
+    addLog('renderLog','Error: '+e.message,'err');
+    document.getElementById('renderBtn').disabled=false;
+  }
+}
+
+async function pollRender(renderId){
+  for(let i=0;i<25;i++){
+    await sleep(8000);
+    setProgress('renderProgress',40+i*2.4);
+    try{
+      const r=await fetch('/api/ss/render/'+renderId);
+      const d=await r.json();
+      const status=d.response?.status;
+      addLog('renderLog','Status: '+status,'info');
+      if(status==='done'&&d.response?.url){
+        setProgress('renderProgress',100);
+        addLog('renderLog','Render complete!','ok');
+        document.getElementById('renderResult').innerHTML=`
+          <div class="render-done">
+            <div class="rd-icon">✅</div>
+            <div>
+              <div class="rd-title">Polished video ready</div>
+              <div class="rd-sub">${document.getElementById('reelTitle')?.value||'Highlight Reel'} · HD MP4</div>
+              <a class="rd-link" href="${d.response.url}" target="_blank">⬇ Download MP4</a>
+            </div>
+          </div>`;
+        document.getElementById('renderBtn').disabled=false;
+        return;
+      }else if(status==='failed'){
+        addLog('renderLog','Render failed — check your video URL is publicly accessible.','err');
+        document.getElementById('renderBtn').disabled=false;
+        return;
+      }
+    }catch(e){addLog('renderLog','Poll error: '+e.message,'err');}
+  }
+  addLog('renderLog','Timed out — check Shotstack dashboard.','warn');
+  document.getElementById('renderBtn').disabled=false;
+}
+
+// Upload functions
+function handleFiles(input){
+  files=[...files,...Array.from(input.files).filter(f=>!files.find(x=>x.name===f.name))];
+  renderVlist();
+  document.getElementById('uploadBtn').disabled=files.length===0;
+  document.getElementById('vidCount').textContent=files.length+' video'+(files.length!==1?'s':'');
+}
+function renderVlist(){
+  const vl=document.getElementById('vlist');vl.innerHTML='';
+  files.forEach((f,i)=>{
+    const d=document.createElement('div');d.className='vitem';
+    d.innerHTML=`<span class="vn">${f.name}</span><span class="vs">${(f.size/1024/1024).toFixed(0)} MB</span><span class="vst"><span class="badge badge-purple">Ready</span></span><span class="vr" onclick="removeFile(${i})">✕</span>`;
+    vl.appendChild(d);
+  });
+}
+function removeFile(i){files.splice(i,1);renderVlist();document.getElementById('uploadBtn').disabled=files.length===0;document.getElementById('vidCount').textContent=files.length+' video'+(files.length!==1?'s':'');}
+
+async function uploadAllParallel(){
+  if(!files.length)return;
+  document.getElementById('uploadBtn').disabled=true;
+  document.getElementById('upProgressWrap').style.display='block';
+  addLog('upLog','Uploading '+files.length+' videos in parallel...','info');
+  let done=0;
+  await Promise.all(files.map(async(f,i)=>{
+    try{
+      const fd=new FormData();fd.append('video_file',f);
+      const r=await fetch('/api/tl/upload',{method:'POST',body:fd});
+      const d=await r.json();
+      if(d.task_id||d._id){addLog('upLog','✓ '+f.name+' queued','ok');}
+      else{addLog('upLog','⚠ '+f.name+': '+JSON.stringify(d).slice(0,80),'warn');}
+    }catch(e){addLog('upLog','✗ '+f.name+': '+e.message,'err');}
+    done++;setProgress('upProgress',Math.round(done/files.length*100));
+  }));
+  addLog('upLog','All submitted. Twelve Labs is indexing in parallel.','ok');
+  document.getElementById('uploadBtn').disabled=false;
+}
+
+async function runAnalysis(){
+  if(!selectedSkills.size){alert('Select skill categories first.');return;}
+  document.getElementById('analyzeBtn').disabled=true;
+  document.getElementById('anProgressWrap').style.display='block';
+  const skills=SKILLS.filter(s=>selectedSkills.has(s.id));
+  const minConf=parseFloat(document.getElementById('minConf').value);
+  const maxClips=parseInt(document.getElementById('clipCount').value);
+  addLog('anLog','Searching '+skills.length+' skills in parallel...','info');
+  let done=0;
+  const results=await Promise.all(skills.map(async s=>{
+    try{
+      const r=await fetch('/api/tl/search',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query_text:s.q,options:['visual'],threshold:'medium',page_limit:maxClips})});
+      const d=await r.json();
+      const clips=(d.data||[]).filter(c=>(c.score||0)>=minConf).slice(0,maxClips);
+      addLog('anLog','✓ '+s.label+': '+clips.length+' clips','ok');
+      done++;setProgress('anProgress',Math.round(done/skills.length*100));
+      return{skill:s,clips};
+    }catch(e){addLog('anLog','✗ '+s.label+': '+e.message,'err');return{skill:s,clips:[]};}
+  }));
+  addLog('anLog','Analysis complete. Submitting reels to Shotstack...','info');
+  document.getElementById('analyzeBtn').disabled=false;
+}
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+// Init preview
+renderPreview();
+</script>
+</body>
+</html>
