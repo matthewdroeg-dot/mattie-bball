@@ -3,77 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mattie Droeg — Video Builder</title>
+<title>Mattie Droeg — Recruiting Video Builder</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100vh}
-.sidebar{position:fixed;left:0;top:0;bottom:0;width:240px;background:#111;border-right:1px solid #222;padding:20px 0;overflow-y:auto;z-index:10}
-.main{margin-left:240px;padding:28px;min-height:100vh}
-.logo{padding:0 20px 20px;border-bottom:1px solid #222;margin-bottom:20px}
-.logo h1{font-size:16px;font-weight:700}
-.logo p{font-size:11px;color:#555;margin-top:2px}
-.nav-section{padding:0 20px;margin-bottom:6px}
-.nav-label{font-size:10px;letter-spacing:2px;color:#444;text-transform:uppercase;margin-bottom:6px;font-weight:600}
-.nav-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;cursor:pointer;font-size:13px;color:#777;margin-bottom:2px;transition:all 0.15s}
-.nav-item:hover{background:#1a1a1a;color:#fff}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:250px;background:#111;border-right:1px solid #1e1e1e;padding:20px 0;overflow-y:auto;z-index:10}
+.main{margin-left:250px;padding:32px;min-height:100vh}
+.logo{padding:0 20px 20px;border-bottom:1px solid #1e1e1e;margin-bottom:20px}
+.logo h1{font-size:16px;font-weight:700;color:#fff}
+.logo p{font-size:11px;color:#444;margin-top:3px}
+.nav-section{padding:0 16px;margin-bottom:8px}
+.nav-label{font-size:9px;letter-spacing:2px;color:#333;text-transform:uppercase;margin-bottom:6px;font-weight:600;padding:0 4px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;cursor:pointer;font-size:13px;color:#666;margin-bottom:1px;transition:all 0.15s}
+.nav-item:hover{background:#1a1a1a;color:#ccc}
 .nav-item.active{background:#1e1a3a;color:#a89ff5}
+.nav-item .ni{font-size:15px;width:18px;text-align:center}
 .panel{display:none}.panel.active{display:block}
-.page-title{font-size:22px;font-weight:700;margin-bottom:4px}
-.page-sub{font-size:13px;color:#555;margin-bottom:24px}
-.card{background:#161616;border:1px solid #222;border-radius:10px;padding:18px;margin-bottom:14px}
-.card-title{font-size:13px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.page-title{font-size:22px;font-weight:700;margin-bottom:4px;color:#fff}
+.page-sub{font-size:13px;color:#444;margin-bottom:24px}
+.card{background:#141414;border:1px solid #1e1e1e;border-radius:10px;padding:18px;margin-bottom:14px}
+.card-title{font-size:12px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:#888;text-transform:uppercase;letter-spacing:1px}
 .badge{font-size:10px;padding:2px 8px;border-radius:999px;font-weight:600;background:#1e1a3a;color:#a89ff5}
+.badge-green{background:#0f2d1a;color:#4ade80}
 .form-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
-.form-row label{font-size:12px;color:#555;min-width:120px}
-.form-row input,.form-row select{flex:1;min-width:0;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;padding:0 10px;height:34px;font-size:13px;color:#fff;font-family:'Inter',sans-serif}
-.form-row input:focus{outline:none;border-color:#534AB7}
+.form-row label{font-size:12px;color:#555;min-width:130px}
+.form-row input,.form-row select,.form-row textarea{flex:1;min-width:0;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;padding:0 10px;height:34px;font-size:13px;color:#fff;font-family:'Inter',sans-serif;transition:border 0.15s}
+.form-row input:focus,.form-row select:focus{outline:none;border-color:#534AB7}
+.form-row select option{background:#1a1a1a}
+.form-row textarea{height:70px;padding:8px 10px;resize:vertical}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all 0.15s}
 .btn-primary{background:#534AB7;color:#fff}
 .btn-primary:hover{background:#3C3489}
 .btn-primary:disabled{opacity:0.4;cursor:not-allowed}
+.btn-outline{background:transparent;color:#666;border:1px solid #2a2a2a}
+.btn-outline:hover{background:#1a1a1a;color:#fff}
 .btn-full{width:100%;justify-content:center;padding:12px}
-.color-grid{display:flex;gap:10px;flex-wrap:wrap}
-.color-chip{width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all 0.15s}
+.color-grid{display:flex;gap:10px;flex-wrap:wrap;padding:4px 0}
+.color-chip{width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all 0.15s;position:relative}
 .color-chip.on{border-color:#fff;transform:scale(1.1)}
 .music-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.music-chip{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:12px;cursor:pointer;transition:all 0.15s}
-.music-chip:hover,.music-chip.on{border-color:#534AB7;background:#1e1a3a}
-.music-chip .ml{font-size:12px;font-weight:600;margin-top:4px}
+.music-chip{background:#1a1a1a;border:1px solid #222;border-radius:8px;padding:12px;cursor:pointer;transition:all 0.15s}
+.music-chip:hover{border-color:#534AB7}
+.music-chip.on{border-color:#534AB7;background:#1e1a3a}
+.music-chip .mi{font-size:20px;margin-bottom:4px}
+.music-chip .ml{font-size:12px;font-weight:600;color:#ccc}
 .music-chip .md{font-size:11px;color:#555;margin-top:2px}
+.clip-list{display:flex;flex-direction:column;gap:8px}
+.clip-item{display:flex;align-items:center;gap:10px;background:#1a1a1a;border:1px solid #222;border-radius:8px;padding:10px 12px}
+.clip-item .ci-num{font-size:11px;color:#444;font-weight:600;min-width:20px}
+.clip-item input{flex:1;background:#222;border:1px solid #2a2a2a;border-radius:5px;padding:0 8px;height:30px;font-size:12px;color:#fff;font-family:'Inter',sans-serif}
+.clip-item input:focus{outline:none;border-color:#534AB7}
+.clip-item .ci-len{width:60px}
+.clip-item .ci-remove{cursor:pointer;color:#444;font-size:16px;padding:2px 4px}
+.clip-item .ci-remove:hover{color:#f87171}
+.add-clip-btn{display:flex;align-items:center;gap:6px;padding:8px 12px;font-size:12px;color:#555;cursor:pointer;border:1px dashed #2a2a2a;border-radius:8px;background:transparent;font-family:'Inter',sans-serif;transition:all 0.15s;width:100%;justify-content:center}
+.add-clip-btn:hover{border-color:#534AB7;color:#a89ff5}
 .stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 .stat-input{display:flex;flex-direction:column;gap:4px}
 .stat-input label{font-size:11px;color:#555}
 .stat-input input{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;padding:0 8px;height:32px;font-size:13px;color:#fff;font-family:'Inter',sans-serif}
 .stat-input input:focus{outline:none;border-color:#534AB7}
-.toggle-grid{display:flex;flex-direction:column;gap:8px}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1e1e1e}
+.toggle-grid{display:flex;flex-direction:column;gap:2px}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #1a1a1a}
 .toggle-row:last-child{border-bottom:none}
 .toggle-row .tl{font-size:13px;color:#ccc}
 .toggle-row .ts{font-size:11px;color:#444;margin-top:2px}
 .toggle{position:relative;width:38px;height:20px;flex-shrink:0}
 .toggle input{opacity:0;width:0;height:0}
-.slider{position:absolute;inset:0;background:#2a2a2a;border-radius:999px;cursor:pointer;transition:0.2s}
-.slider:before{content:'';position:absolute;width:14px;height:14px;left:3px;top:3px;background:#555;border-radius:50%;transition:0.2s}
-.toggle input:checked+.slider{background:#534AB7}
-.toggle input:checked+.slider:before{transform:translateX(18px);background:#fff}
-.log{background:#0d0d0d;border:1px solid #1e1e1e;border-radius:8px;padding:12px;font-size:12px;font-family:'Courier New',monospace;color:#555;max-height:180px;overflow-y:auto;line-height:1.9;margin-top:10px}
+.tslider{position:absolute;inset:0;background:#2a2a2a;border-radius:999px;cursor:pointer;transition:0.2s}
+.tslider:before{content:'';position:absolute;width:14px;height:14px;left:3px;top:3px;background:#555;border-radius:50%;transition:0.2s}
+.toggle input:checked+.tslider{background:#534AB7}
+.toggle input:checked+.tslider:before{transform:translateX(18px);background:#fff}
+.effect-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.effect-chip{background:#1a1a1a;border:1px solid #222;border-radius:8px;padding:10px 12px;cursor:pointer;transition:all 0.15s;font-size:12px;color:#666}
+.effect-chip:hover{border-color:#534AB7;color:#ccc}
+.effect-chip.on{border-color:#534AB7;background:#1e1a3a;color:#a89ff5}
+.effect-chip .el{font-weight:600;margin-top:4px;font-size:13px}
+.effect-chip .ed{font-size:11px;color:#444;margin-top:2px}
+.effect-chip.on .ed{color:#7766cc}
+.log{background:#0d0d0d;border:1px solid #1a1a1a;border-radius:8px;padding:12px;font-size:12px;font-family:'Courier New',monospace;color:#555;max-height:200px;overflow-y:auto;line-height:1.9;margin-top:10px}
 .log .ok{color:#4ade80}.log .err{color:#f87171}.log .info{color:#60a5fa}.log .warn{color:#fbbf24}
-.progress-bar{height:4px;background:#1e1e1e;border-radius:999px;overflow:hidden;margin:8px 0}
-.progress-fill{height:100%;background:#534AB7;border-radius:999px;transition:width 0.4s;width:0%}
-.render-done{background:#0f2d1a;border:1px solid #166534;border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:12px;margin-top:10px}
-.render-done .ri{font-size:24px}
-.render-done .rt{font-size:13px;font-weight:600}
-.render-done .rs{font-size:11px;color:#555;margin-top:2px}
-.render-done a{font-size:13px;color:#a89ff5;font-weight:600;margin-top:6px;display:inline-flex;align-items:center;gap:4px;text-decoration:none}
-.info-box{padding:10px 12px;border-radius:8px;margin-bottom:10px;font-size:12px;line-height:1.5}
+.progress-bar{height:4px;background:#1a1a1a;border-radius:999px;overflow:hidden;margin:10px 0}
+.progress-fill{height:100%;background:linear-gradient(90deg,#534AB7,#a89ff5);border-radius:999px;transition:width 0.4s;width:0%}
+.render-done{background:#0f2d1a;border:1px solid #166534;border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:14px;margin-top:12px}
+.render-done .ri{font-size:28px}
+.render-done .rt{font-size:14px;font-weight:600;color:#fff}
+.render-done .rs{font-size:12px;color:#555;margin-top:2px}
+.render-done a{font-size:13px;color:#4ade80;font-weight:600;margin-top:6px;display:inline-flex;align-items:center;gap:4px;text-decoration:none}
+.render-done a:hover{color:#fff}
+.info-box{padding:10px 14px;border-radius:8px;margin-bottom:12px;font-size:12px;line-height:1.6}
 .info-box.amber{background:#1f1500;border:1px solid #3d2800;color:#fbbf24}
 .info-box.blue{background:#0f1e2d;border:1px solid #1e3a5f;color:#60a5fa}
+.info-box.green{background:#0f2d1a;border:1px solid #166534;color:#4ade80}
 .summary-table{width:100%;font-size:13px;border-collapse:collapse}
-.summary-table td{padding:7px 0;border-bottom:1px solid #1e1e1e;vertical-align:top}
-.summary-table td:first-child{color:#444;width:130px}
+.summary-table td{padding:8px 0;border-bottom:1px solid #1a1a1a;vertical-align:top}
+.summary-table td:first-child{color:#444;width:140px}
 .summary-table td:last-child{color:#ccc;text-align:right}
 .summary-table tr:last-child td{border-bottom:none}
+.section-divider{height:1px;background:#1a1a1a;margin:16px 0}
 </style>
 </head>
 <body>
@@ -84,74 +112,173 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
   </div>
   <div class="nav-section">
     <div class="nav-label">Video Builder</div>
-    <div class="nav-item active" onclick="showPanel('design')">🎨 Design</div>
-    <div class="nav-item" onclick="showPanel('video')">🎬 Video & Stats</div>
-    <div class="nav-item" onclick="showPanel('render')">⚡ Render</div>
+    <div class="nav-item active" onclick="showPanel('player')"><span class="ni">👤</span> Player Profile</div>
+    <div class="nav-item" onclick="showPanel('clips')"><span class="ni">🎬</span> Clips</div>
+    <div class="nav-item" onclick="showPanel('design')"><span class="ni">🎨</span> Design & Music</div>
+    <div class="nav-item" onclick="showPanel('elements')"><span class="ni">✨</span> Elements & Effects</div>
+    <div class="nav-item" onclick="showPanel('stats')"><span class="ni">📊</span> Stats & Academic</div>
+    <div class="nav-item" onclick="showPanel('render')"><span class="ni">⚡</span> Render</div>
   </div>
 </nav>
 <main class="main">
 
-  <div id="panel-design" class="panel active">
-    <div class="page-title">Design</div>
-    <div class="page-sub">Set the visual style for every video.</div>
+  <!-- PLAYER PROFILE -->
+  <div id="panel-player" class="panel active">
+    <div class="page-title">Player Profile</div>
+    <div class="page-sub">This info appears on the intro card, lower thirds, and outro.</div>
     <div class="card">
-      <div class="card-title">Brand color</div>
-      <div class="color-grid" id="colorGrid"></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Hype music</div>
-      <div class="music-grid" id="musicGrid"></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Video elements</div>
-      <div class="toggle-grid">
-        <div class="toggle-row"><div><div class="tl">Intro card</div><div class="ts">Name, school, number, position, grad year, GPA</div></div><label class="toggle"><input type="checkbox" id="chkIntro" checked><span class="slider"></span></label></div>
-        <div class="toggle-row"><div><div class="tl">Lower third</div><div class="ts">Name + school on each clip</div></div><label class="toggle"><input type="checkbox" id="chkLower" checked><span class="slider"></span></label></div>
-        <div class="toggle-row"><div><div class="tl">Outro stats</div><div class="ts">Season stats close the reel</div></div><label class="toggle"><input type="checkbox" id="chkOutro" checked><span class="slider"></span></label></div>
-      </div>
-    </div>
-    <button class="btn btn-primary btn-full" onclick="showPanel('video')">Continue →</button>
-  </div>
-
-  <div id="panel-video" class="panel">
-    <div class="page-title">Video & Stats</div>
-    <div class="page-sub">Set the source video, player details, and stats.</div>
-    <div class="card">
-      <div class="card-title">Source video</div>
-      <div class="info-box blue">Paste your Dropbox direct link ending in dl=1.</div>
-      <div class="form-row"><label>Dropbox URL</label><input type="text" id="videoUrl" placeholder="https://www.dropbox.com/...dl=1"></div>
-      <div class="form-row"><label>Reel title</label><input type="text" id="reelTitle" placeholder="e.g. 3-Point Shooting vs Veritas"></div>
-      <div class="form-row"><label>Video length (sec)</label><input type="number" id="videoLen" value="60" min="5" max="600"></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Player details</div>
+      <div class="card-title">Identity</div>
       <div class="form-row"><label>Full name</label><input type="text" id="pName" value="Mattie Droeg"></div>
       <div class="form-row"><label>Jersey number</label><input type="text" id="pNum" value="#34"></div>
       <div class="form-row"><label>Position</label><input type="text" id="pPos" value="SG / G / SF"></div>
-      <div class="form-row"><label>High school</label><input type="text" id="pSchool" value="Lincoln Preparatory Academy"></div>
-      <div class="form-row"><label>Grad year</label><input type="text" id="pGrad" value="Class of 2027"></div>
-      <div class="form-row"><label>GPA</label><input type="text" id="pGpa" placeholder="e.g. 3.8"></div>
-      <div class="form-row"><label>Height</label><input type="text" id="pHeight" placeholder="e.g. 5'10&quot;"></div>
+      <div class="form-row"><label>Height</label><input type="text" id="pHeight" placeholder="e.g. 5'8&quot;"></div>
+      <div class="form-row"><label>Weight</label><input type="text" id="pWeight" placeholder="e.g. 145 lbs"></div>
     </div>
     <div class="card">
-      <div class="card-title">Outro stats <span class="badge">this reel only</span></div>
-      <p style="font-size:12px;color:#444;margin-bottom:12px">Leave blank to hide.</p>
-      <div class="stat-grid">
+      <div class="card-title">School</div>
+      <div class="form-row"><label>High school</label><input type="text" id="pSchool" value="Lincoln Preparatory Academy"></div>
+      <div class="form-row"><label>City / State</label><input type="text" id="pCity" placeholder="e.g. Phoenix, AZ"></div>
+      <div class="form-row"><label>Grad year</label><input type="text" id="pGrad" value="Class of 2027"></div>
+      <div class="form-row"><label>Availability</label><input type="text" id="pAvail" value="Available 2027"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Contact & Social</div>
+      <div class="form-row"><label>Email</label><input type="text" id="pEmail" placeholder="recruiting email"></div>
+      <div class="form-row"><label>Instagram / Twitter</label><input type="text" id="pSocial" placeholder="@handle"></div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="showPanel('clips')">Continue to clips →</button>
+  </div>
+
+  <!-- CLIPS -->
+  <div id="panel-clips" class="panel">
+    <div class="page-title">Clips</div>
+    <div class="page-sub">Add up to 8 Dropbox video URLs. They'll be stitched together in order.</div>
+    <div class="info-box blue">Each URL must end in dl=1. Get the link from Dropbox → Share → Copy link, then change dl=0 to dl=1.</div>
+    <div class="card">
+      <div class="card-title">Reel info</div>
+      <div class="form-row"><label>Reel title</label><input type="text" id="reelTitle" placeholder="e.g. Perimeter Shooting · Spring 2025"></div>
+      <div class="form-row"><label>Skill category</label>
+        <select id="reelCategory">
+          <option>Perimeter Shooting</option>
+          <option>Ball Handling</option>
+          <option>Finishing at Rim</option>
+          <option>On-Ball Defense</option>
+          <option>Passing & Vision</option>
+          <option>Off-Ball Movement</option>
+          <option>Rebounding</option>
+          <option>Transition</option>
+          <option>Clutch Moments</option>
+          <option>Hustle Plays</option>
+          <option>Full Highlight Reel</option>
+          <option>Custom</option>
+        </select>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Video clips <span class="badge" id="clipCountBadge">0 clips</span></div>
+      <div class="clip-list" id="clipList"></div>
+      <button class="add-clip-btn" onclick="addClip()" style="margin-top:10px">+ Add clip</button>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="showPanel('design')">Continue to design →</button>
+  </div>
+
+  <!-- DESIGN -->
+  <div id="panel-design" class="panel">
+    <div class="page-title">Design & Music</div>
+    <div class="page-sub">Brand color and soundtrack for this reel.</div>
+    <div class="card">
+      <div class="card-title">Brand color</div>
+      <p style="font-size:12px;color:#444;margin-bottom:12px">Used on intro card, lower thirds, skill title card, and outro accent.</p>
+      <div class="color-grid" id="colorGrid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Music track</div>
+      <div class="music-grid" id="musicGrid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Music settings</div>
+      <div class="form-row"><label>Volume</label>
+        <select id="musicVol">
+          <option value="0.4">Low — game audio comes through</option>
+          <option value="0.6" selected>Medium — balanced</option>
+          <option value="0.8">High — music dominant</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="showPanel('elements')">Continue to elements →</button>
+  </div>
+
+  <!-- ELEMENTS & EFFECTS -->
+  <div id="panel-elements" class="panel">
+    <div class="page-title">Elements & Effects</div>
+    <div class="page-sub">Choose what appears in the video and how it looks.</div>
+    <div class="card">
+      <div class="card-title">Video elements</div>
+      <div class="toggle-grid">
+        <div class="toggle-row"><div><div class="tl">Animated intro card</div><div class="ts">Name, school, number, position, grad year</div></div><label class="toggle"><input type="checkbox" id="chkIntro" checked><span class="tslider"></span></label></div>
+        <div class="toggle-row"><div><div class="tl">Skill title card</div><div class="ts">Category name between intro and clips</div></div><label class="toggle"><input type="checkbox" id="chkSkill" checked><span class="tslider"></span></label></div>
+        <div class="toggle-row"><div><div class="tl">Lower third</div><div class="ts">Name + school on each clip</div></div><label class="toggle"><input type="checkbox" id="chkLower" checked><span class="tslider"></span></label></div>
+        <div class="toggle-row"><div><div class="tl">Outro stats card</div><div class="ts">Season stats + availability</div></div><label class="toggle"><input type="checkbox" id="chkOutro" checked><span class="tslider"></span></label></div>
+        <div class="toggle-row"><div><div class="tl">Academic slide</div><div class="ts">GPA, class rank, test scores</div></div><label class="toggle"><input type="checkbox" id="chkAcademic"><span class="tslider"></span></label></div>
+        <div class="toggle-row"><div><div class="tl">Cinematic letterbox</div><div class="ts">Black bars top and bottom</div></div><label class="toggle"><input type="checkbox" id="chkLetterbox"><span class="tslider"></span></label></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Clip effects</div>
+      <div class="effect-grid" id="effectGrid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Transitions</div>
+      <div class="form-row"><label>Between clips</label>
+        <select id="transition">
+          <option value="fade">Fade</option>
+          <option value="zoom">Zoom</option>
+          <option value="slideLeft">Slide left</option>
+          <option value="slideRight">Slide right</option>
+          <option value="carouselLeft">Carousel</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="showPanel('stats')">Continue to stats →</button>
+  </div>
+
+  <!-- STATS & ACADEMIC -->
+  <div id="panel-stats" class="panel">
+    <div class="page-title">Stats & Academic</div>
+    <div class="page-sub">Shown on the outro card and academic slide.</div>
+    <div class="card">
+      <div class="card-title">Season stats <span class="badge">outro card</span></div>
+      <div class="form-row"><label>Season label</label><input type="text" id="s6" placeholder="e.g. 2024-25 Season"></div>
+      <div class="stat-grid" style="margin-top:10px">
         <div class="stat-input"><label>PPG</label><input type="text" id="s1" placeholder="18.4"></div>
         <div class="stat-input"><label>APG</label><input type="text" id="s2" placeholder="4.2"></div>
         <div class="stat-input"><label>RPG</label><input type="text" id="s3" placeholder="5.1"></div>
         <div class="stat-input"><label>FG%</label><input type="text" id="s4" placeholder="44%"></div>
         <div class="stat-input"><label>3P%</label><input type="text" id="s5" placeholder="38%"></div>
-        <div class="stat-input"><label>Season</label><input type="text" id="s6" placeholder="2024-25"></div>
+        <div class="stat-input"><label>SPG</label><input type="text" id="s7" placeholder="1.8"></div>
       </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Academic <span class="badge">academic slide</span></div>
+      <div class="form-row"><label>GPA</label><input type="text" id="aGpa" placeholder="e.g. 3.8"></div>
+      <div class="form-row"><label>Class rank</label><input type="text" id="aRank" placeholder="e.g. Top 10%"></div>
+      <div class="form-row"><label>SAT / ACT</label><input type="text" id="aTest" placeholder="e.g. SAT 1180"></div>
+      <div class="form-row"><label>Intended major</label><input type="text" id="aMajor" placeholder="e.g. Business"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Tournament results</div>
+      <div class="form-row"><label>Result 1</label><input type="text" id="t1" placeholder="e.g. 1st — AZ Invitational 2025"></div>
+      <div class="form-row"><label>Result 2</label><input type="text" id="t2" placeholder="e.g. All-Tournament Team"></div>
+      <div class="form-row"><label>Result 3</label><input type="text" id="t3" placeholder="e.g. State Qualifier 2024"></div>
     </div>
     <button class="btn btn-primary btn-full" onclick="showPanel('render')">Go to render →</button>
   </div>
 
+  <!-- RENDER -->
   <div id="panel-render" class="panel">
     <div class="page-title">Render</div>
     <div class="page-sub">Submit to Shotstack and download your polished MP4.</div>
-    <div class="info-box amber">Sandbox renders include a small Shotstack watermark.</div>
+    <div class="info-box green">Production mode — clean watermark-free HD output.</div>
     <div class="card">
       <div class="card-title">Summary</div>
       <table class="summary-table" id="summaryTable"></table>
@@ -164,55 +291,103 @@ body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#fff;min-height:100
 
 </main>
 <script>
-const COLORS=[{h:'#534AB7',l:'Purple'},{h:'#1D9E75',l:'Teal'},{h:'#D85A30',l:'Coral'},{h:'#378ADD',l:'Blue'},{h:'#111111',l:'Black'},{h:'#BA7517',l:'Gold'},{h:'#A32D2D',l:'Red'},{h:'#ffffff',l:'White'}];
-const MUSIC=[
-  {id:'m1',l:'Full court press',d:'Hard trap',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/advertising.mp3'},
-  {id:'m2',l:'Game time',d:'Hip hop',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/energy.mp3'},
-  {id:'m3',l:'Highlight reel',d:'Cinematic',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/ambisax.mp3'},
-  {id:'m4',l:'Championship',d:'Orchestral',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/action-ambient.mp3'},
+const COLORS=[
+  {h:'#534AB7',l:'Purple'},{h:'#1D9E75',l:'Teal'},{h:'#D85A30',l:'Coral'},
+  {h:'#378ADD',l:'Blue'},{h:'#BA7517',l:'Gold'},{h:'#A32D2D',l:'Red'},
+  {h:'#111111',l:'Black'},{h:'#ffffff',l:'White'}
 ];
-let color='#534AB7', music=MUSIC[0];
+const MUSIC=[
+  {id:'m1',icon:'⚡',l:'Full court press',d:'Hard trap, high energy',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/advertising.mp3'},
+  {id:'m2',icon:'🔥',l:'Ignite',d:'Driving hip hop beat',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/energy.mp3'},
+  {id:'m3',icon:'🌟',l:'Rise up',d:'Cinematic + bass drop',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/ambisax.mp3'},
+  {id:'m4',icon:'🏆',l:'Championship',d:'Epic orchestral swell',url:'https://shotstack-assets.s3.ap-southeast-2.amazonaws.com/music/freepd/action-ambient.mp3'},
+];
+const EFFECTS=[
+  {id:'zoomIn',icon:'🔍',l:'Zoom in',d:'Slow push on each clip'},
+  {id:'zoomOut',icon:'🔭',l:'Zoom out',d:'Pull back reveal'},
+  {id:'slideLeft',icon:'⬅',l:'Slide left',d:'Pan left motion'},
+  {id:'slideRight',icon:'➡',l:'Slide right',d:'Pan right motion'},
+];
+let color='#534AB7', music=MUSIC[0], effect=null;
+let clips=[];
 
-document.getElementById('colorGrid').innerHTML=COLORS.map((c,i)=>`<div class="color-chip${i===0?' on':''}" style="background:${c.h}${c.h==='#ffffff'?';border:2px solid #333':''}" title="${c.l}" onclick="pickColor('${c.h}',this)"></div>`).join('');
+// Color grid
+document.getElementById('colorGrid').innerHTML=COLORS.map((c,i)=>`<div class="color-chip${i===0?' on':''}" style="background:${c.h};${c.h==='#ffffff'?'border-color:#333':''}" title="${c.l}" onclick="pickColor('${c.h}',this)"></div>`).join('');
 function pickColor(h,el){color=h;document.querySelectorAll('.color-chip').forEach(x=>x.classList.remove('on'));el.classList.add('on');}
-document.getElementById('musicGrid').innerHTML=MUSIC.map((m,i)=>`<div class="music-chip${i===0?' on':''}" onclick="pickMusic('${m.id}',this)"><div style="font-size:18px">${['⚡','🔥','🌟','🏆'][i]}</div><div class="ml">${m.l}</div><div class="md">${m.d}</div></div>`).join('');
+
+// Music grid
+document.getElementById('musicGrid').innerHTML=MUSIC.map((m,i)=>`<div class="music-chip${i===0?' on':''}" onclick="pickMusic('${m.id}',this)"><div class="mi">${m.icon}</div><div class="ml">${m.l}</div><div class="md">${m.d}</div></div>`).join('');
 function pickMusic(id,el){music=MUSIC.find(m=>m.id===id);document.querySelectorAll('.music-chip').forEach(x=>x.classList.remove('on'));el.classList.add('on');}
+
+// Effect grid
+document.getElementById('effectGrid').innerHTML=EFFECTS.map(e=>`<div class="effect-chip" id="eff-${e.id}" onclick="pickEffect('${e.id}',this)"><div style="font-size:20px">${e.icon}</div><div class="el">${e.l}</div><div class="ed">${e.d}</div></div>`).join('');
+function pickEffect(id,el){
+  if(effect===id){effect=null;el.classList.remove('on');}
+  else{effect=id;document.querySelectorAll('.effect-chip').forEach(x=>x.classList.remove('on'));el.classList.add('on');}
+}
+
+// Clips
+function addClip(){
+  const idx=clips.length;
+  clips.push({url:'',len:30});
+  renderClipList();
+}
+function removeClip(i){clips.splice(i,1);renderClipList();}
+function renderClipList(){
+  const el=document.getElementById('clipList');
+  el.innerHTML='';
+  clips.forEach((c,i)=>{
+    const d=document.createElement('div');
+    d.className='clip-item';
+    d.innerHTML=`<span class="ci-num">${i+1}</span><input type="text" placeholder="Dropbox URL (dl=1)" value="${c.url}" onchange="clips[${i}].url=this.value"><input type="number" class="ci-len" placeholder="sec" value="${c.len}" min="1" max="120" onchange="clips[${i}].len=parseInt(this.value)||30"><span class="ci-remove" onclick="removeClip(${i})">✕</span>`;
+    el.appendChild(d);
+  });
+  document.getElementById('clipCountBadge').textContent=clips.length+' clip'+(clips.length!==1?'s':'');
+}
+addClip();
 
 function showPanel(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach((n,i)=>n.classList.toggle('active',['design','video','render'][i]===id));
+  const ids=['player','clips','design','elements','stats','render'];
+  document.querySelectorAll('.nav-item').forEach((n,i)=>n.classList.toggle('active',ids[i]===id));
   if(id==='render') renderSummary();
 }
 
-function getP(){return{name:v('pName')||'Mattie Droeg',num:v('pNum')||'#34',pos:v('pPos')||'SG/G/SF',school:v('pSchool')||'Lincoln Preparatory Academy',grad:v('pGrad')||'Class of 2027',gpa:v('pGpa'),height:v('pHeight')};}
-function getStats(){return[{id:'s1',lbl:'PPG'},{id:'s2',lbl:'APG'},{id:'s3',lbl:'RPG'},{id:'s4',lbl:'FG%'},{id:'s5',lbl:'3P%'}].map(f=>({val:v(f.id),lbl:f.lbl})).filter(s=>s.val);}
 function v(id){return document.getElementById(id)?.value?.trim()||'';}
+function getP(){return{name:v('pName')||'Mattie Droeg',num:v('pNum')||'#34',pos:v('pPos')||'SG/G/SF',height:v('pHeight'),weight:v('pWeight'),school:v('pSchool')||'Lincoln Preparatory Academy',city:v('pCity'),grad:v('pGrad')||'Class of 2027',avail:v('pAvail')||'Available 2027',email:v('pEmail'),social:v('pSocial')};}
+function getStats(){return[{id:'s1',lbl:'PPG'},{id:'s2',lbl:'APG'},{id:'s3',lbl:'RPG'},{id:'s4',lbl:'FG%'},{id:'s5',lbl:'3P%'},{id:'s7',lbl:'SPG'}].map(f=>({val:v(f.id),lbl:f.lbl})).filter(s=>s.val);}
 
 function renderSummary(){
-  const p=getP(),stats=getStats(),url=v('videoUrl')||'Not set',title=v('reelTitle')||'Highlight Reel';
+  const p=getP(),stats=getStats(),title=v('reelTitle')||'Highlight Reel',cat=v('reelCategory');
+  const validClips=clips.filter(c=>c.url);
   document.getElementById('summaryTable').innerHTML=`
-    <tr><td>Player</td><td>${p.name} · ${p.num}</td></tr>
-    <tr><td>School</td><td>${p.school}</td></tr>
-    <tr><td>Details</td><td>${p.pos} · ${p.grad}${p.gpa?' · GPA '+p.gpa:''}${p.height?' · '+p.height:''}</td></tr>
-    <tr><td>Reel title</td><td>${title}</td></tr>
-    <tr><td>Video URL</td><td style="word-break:break-all;font-size:11px">${url}</td></tr>
+    <tr><td>Player</td><td>${p.name} · ${p.num} · ${p.pos}</td></tr>
+    <tr><td>School</td><td>${p.school}${p.city?' · '+p.city:''} · ${p.grad}</td></tr>
+    <tr><td>Reel</td><td>${title}</td></tr>
+    <tr><td>Category</td><td>${cat}</td></tr>
+    <tr><td>Clips</td><td>${validClips.length} video${validClips.length!==1?'s':''}</td></tr>
     <tr><td>Color</td><td>${COLORS.find(c=>c.h===color)?.l||color}</td></tr>
     <tr><td>Music</td><td>${music.l}</td></tr>
-    <tr><td>Stats</td><td>${stats.length?stats.map(s=>s.lbl+' '+s.val).join(' · '):'None'}</td></tr>`;
+    <tr><td>Stats</td><td>${stats.length?stats.map(s=>s.lbl+' '+s.val).join(' · '):'None'}</td></tr>
+    <tr><td>GPA</td><td>${v('aGpa')||'Not set'}</td></tr>`;
 }
 
 function addLog(msg,cls=''){const el=document.getElementById('renderLog');el.innerHTML+=`<div class="${cls}">[${new Date().toLocaleTimeString('en-US',{hour12:false})}] ${msg}</div>`;el.scrollTop=el.scrollHeight;}
 function setP(pct){document.getElementById('renderProgress').style.width=Math.min(100,pct)+'%';}
 
-function buildHTML(bg,lines){
-  const lineHTML=lines.map(l=>`<div style="font-family:Arial,sans-serif;font-size:${l.size}px;font-weight:${l.weight||400};color:${l.color};margin:${l.margin||6}px 0;letter-spacing:${l.spacing||0}px;text-transform:${l.upper?'uppercase':'none'}">${l.text}</div>`).join('');
-  return`<div style="background:${bg};width:1280px;height:720px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px;box-sizing:border-box">${lineHTML}</div>`;
+function buildCard(lines,bg){
+  bg=bg||'#0d0d0d';
+  const lineHTML=lines.map(l=>{
+    const sz=l.size||20,wt=l.weight||400,col=l.color||'#ffffff',mt=l.margin!==undefined?l.margin:8,sp=l.spacing||0,tt=l.upper?'uppercase':'none',bg2=l.bg?`background:${l.bg};padding:8px 24px;border-radius:3px;display:inline-block;`:'';
+    return`<div style="${bg2}font-family:Arial,sans-serif;font-size:${sz}px;font-weight:${wt};color:${col};margin:${mt}px 0;letter-spacing:${sp}px;text-transform:${tt}">${l.text}</div>`;
+  }).join('');
+  return`<div style="background:${bg};width:1280px;height:720px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px;box-sizing:border-box">${lineHTML}</div>`;
 }
 
 async function submitRender(){
-  const videoUrl=v('videoUrl');
-  if(!videoUrl){alert('Add a video URL first.');return;}
+  const validClips=clips.filter(c=>c.url.trim());
+  if(!validClips.length){alert('Add at least one video clip on the Clips tab.');return;}
   document.getElementById('renderBtn').disabled=true;
   document.getElementById('renderResult').innerHTML='';
   document.getElementById('renderLog').innerHTML='';
@@ -220,68 +395,134 @@ async function submitRender(){
 
   const p=getP();
   const title=v('reelTitle')||'Highlight Reel';
-  const vlen=parseInt(v('videoLen')||'60');
+  const cat=v('reelCategory')||'Highlight Reel';
   const stats=getStats();
+  const season=v('s6')||'Season Stats';
   const c=color;
+  const vol=parseFloat(v('musicVol')||'0.6');
+  const trans=v('transition')||'fade';
   const showIntro=document.getElementById('chkIntro').checked;
+  const showSkill=document.getElementById('chkSkill').checked;
   const showLower=document.getElementById('chkLower').checked;
   const showOutro=document.getElementById('chkOutro').checked;
-  const season=v('s6')||'Season Stats';
+  const showAcademic=document.getElementById('chkAcademic').checked;
+  const showLetterbox=document.getElementById('chkLetterbox').checked;
 
-  addLog('Building timeline...','info');
-  setP(10);
+  addLog('Building production timeline...','info');
+  setP(8);
 
-  const tracks=[];
   const mainClips=[];
-  const lowerClips=[];
-
+  const overlayClips=[];
   let offset=0;
 
+  // INTRO CARD
   if(showIntro){
     const detailParts=[p.num,p.pos,p.grad];
     if(p.height) detailParts.push(p.height);
-    if(p.gpa) detailParts.push('GPA '+p.gpa);
-    const introHTML=buildHTML('#0d0d0d',[
-      {text:p.school.toUpperCase(),size:18,color:'#666666',spacing:3,upper:true,margin:4},
-      {text:p.name,size:72,weight:900,color:'#ffffff',margin:8},
-      {text:detailParts.join('  ·  '),size:20,color:'#aaaaaa',margin:4},
-      {text:title.toUpperCase(),size:16,weight:700,color:'#ffffff',spacing:3,margin:16},
+    const introHTML=buildCard([
+      {text:p.school.toUpperCase(),size:16,color:'#555555',spacing:4,upper:true,margin:4,weight:400},
+      {text:p.name,size:80,weight:900,color:'#ffffff',margin:10},
+      {text:detailParts.join('  ·  '),size:20,color:'#888888',margin:6},
+      {text:cat.toUpperCase(),size:14,weight:700,color:'#ffffff',spacing:4,bg:c,margin:20},
     ]);
-    mainClips.push({asset:{type:'html',html:introHTML,width:1280,height:720},start:0,length:5,transition:{in:'fade',out:'fade'}});
-    offset=5;
+    mainClips.push({asset:{type:'html',html:introHTML,width:1280,height:720},start:offset,length:5,transition:{in:'fade',out:'fade'}});
+    offset+=5;
   }
 
-  mainClips.push({asset:{type:'video',src:videoUrl},start:offset,length:vlen});
-
-  if(showLower){
-    const lowerHTML=`<div style="font-family:Arial,sans-serif;display:inline-block"><div style="background:${c};padding:8px 20px 4px"><div style="font-size:22px;font-weight:700;color:#fff;letter-spacing:1px">${p.name} ${p.num}</div></div><div style="background:rgba(0,0,0,0.75);padding:4px 20px 8px"><div style="font-size:14px;color:#ddd;letter-spacing:0.5px">${p.school} · ${p.pos}</div></div></div>`;
-    lowerClips.push({asset:{type:'html',html:lowerHTML,width:600,height:80},start:offset+1,length:4,position:'bottomLeft',offset:{x:0.02,y:-0.04},transition:{in:'slideRight',out:'slideLeft'}});
+  // SKILL TITLE CARD
+  if(showSkill){
+    const skillHTML=buildCard([
+      {text:'SKILL SPOTLIGHT',size:13,color:'#444444',spacing:4,upper:true,margin:4},
+      {text:cat,size:64,weight:900,color:'#ffffff',margin:10},
+      {text:'─────',size:20,color:c,margin:4},
+    ]);
+    mainClips.push({asset:{type:'html',html:skillHTML,width:1280,height:720},start:offset,length:3,transition:{in:'fade',out:'fade'}});
+    offset+=3;
   }
 
-  const outroStart=offset+vlen;
+  // VIDEO CLIPS
+  validClips.forEach((clip,i)=>{
+    const clipLen=clip.len||30;
+    const clipObj={
+      asset:{type:'video',src:clip.url},
+      start:offset,
+      length:clipLen,
+      transition:{in:trans,out:trans}
+    };
+    if(effect) clipObj.effect=effect;
+    mainClips.push(clipObj);
+
+    // Lower third on first 4 seconds of each clip
+    if(showLower){
+      const lowerHTML=`<div style="font-family:Arial,sans-serif"><div style="background:${c};padding:8px 20px 5px;display:inline-block"><div style="font-size:22px;font-weight:900;color:#fff;letter-spacing:0.5px">${p.name} &nbsp;${p.num}</div></div><div style="background:rgba(0,0,0,0.82);padding:5px 20px 8px;display:inline-block"><div style="font-size:13px;color:#ddd;letter-spacing:0.5px">${p.school}${p.city?' · '+p.city:''} &nbsp;·&nbsp; ${p.pos}</div></div></div>`;
+      overlayClips.push({
+        asset:{type:'html',html:lowerHTML,width:700,height:80},
+        start:offset+0.5,length:4,
+        position:'bottomLeft',offset:{x:0.02,y:-0.04},
+        transition:{in:'slideRight',out:'slideLeft'}
+      });
+    }
+    offset+=clipLen;
+  });
+
+  // OUTRO STATS
   if(showOutro){
-    const statItems=stats.map(s=>`<div style="text-align:center;margin:0 24px"><div style="font-size:48px;font-weight:900;color:#fff;line-height:1">${s.val}</div><div style="font-size:13px;color:#777;letter-spacing:2px;text-transform:uppercase;margin-top:6px">${s.lbl}</div></div>`).join('');
-    const outroHTML=`<div style="background:#0d0d0d;width:1280px;height:720px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px;box-sizing:border-box;font-family:Arial,sans-serif"><div style="font-size:13px;letter-spacing:3px;color:#555;text-transform:uppercase;margin-bottom:12px">${season}</div><div style="font-size:48px;font-weight:900;color:#fff;margin-bottom:6px">${p.name}</div><div style="font-size:16px;color:#666;margin-bottom:36px">${p.school} · ${p.grad}${p.gpa?' · GPA '+p.gpa:''}</div>${statItems?`<div style="display:flex;justify-content:center;flex-wrap:wrap">${statItems}</div>`:''}<div style="width:48px;height:3px;background:${c};margin-top:36px;border-radius:2px"></div></div>`;
-    mainClips.push({asset:{type:'html',html:outroHTML,width:1280,height:720},start:outroStart,length:6,transition:{in:'fade',out:'fade'}});
+    const statItems=stats.map(s=>`<div style="text-align:center;margin:0 20px"><div style="font-size:52px;font-weight:900;color:#fff;line-height:1">${s.val}</div><div style="font-size:12px;color:#666;letter-spacing:2px;text-transform:uppercase;margin-top:8px">${s.lbl}</div></div>`).join('');
+    const contactLine=[p.avail,p.email,p.social].filter(Boolean).join('  ·  ');
+    const outroHTML=`<div style="background:#0d0d0d;width:1280px;height:720px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px;box-sizing:border-box;font-family:Arial,sans-serif"><div style="font-size:13px;letter-spacing:3px;color:#444;text-transform:uppercase;margin-bottom:10px">${season}</div><div style="font-size:56px;font-weight:900;color:#fff;margin-bottom:6px">${p.name}</div><div style="font-size:16px;color:#555;margin-bottom:40px">${p.school} · ${p.grad}</div>${statItems?`<div style="display:flex;justify-content:center;flex-wrap:wrap;margin-bottom:40px">${statItems}</div>`:''}<div style="width:50px;height:3px;background:${c};border-radius:2px;margin-bottom:${contactLine?'24px':'0'}"></div>${contactLine?`<div style="font-size:14px;color:#666;margin-top:8px;letter-spacing:0.5px">${contactLine}</div>`:''}</div>`;
+    mainClips.push({asset:{type:'html',html:outroHTML,width:1280,height:720},start:offset,length:7,transition:{in:'fade',out:'fade'}});
+    offset+=7;
   }
 
-  tracks.push({clips:mainClips});
-  if(lowerClips.length) tracks.push({clips:lowerClips});
+  // ACADEMIC SLIDE
+  if(showAcademic){
+    const gpa=v('aGpa'),rank=v('aRank'),test=v('aTest'),major=v('aMajor');
+    const t1=v('t1'),t2=v('t2'),t3=v('t3');
+    const acLines=[
+      {text:'STUDENT ATHLETE',size:13,color:'#444',spacing:3,upper:true,margin:4},
+      {text:p.name,size:48,weight:900,color:'#fff',margin:10},
+    ];
+    if(gpa) acLines.push({text:'GPA  '+gpa+(rank?' · '+rank:''),size:22,color:'#ccc',margin:6});
+    if(test) acLines.push({text:test,size:18,color:'#888',margin:4});
+    if(major) acLines.push({text:'Intended Major: '+major,size:16,color:'#666',margin:4});
+    if(t1||t2||t3){
+      acLines.push({text:'─────',size:16,color:c,margin:16});
+      if(t1) acLines.push({text:t1,size:15,color:'#888',margin:3});
+      if(t2) acLines.push({text:t2,size:15,color:'#888',margin:3});
+      if(t3) acLines.push({text:t3,size:15,color:'#888',margin:3});
+    }
+    const acHTML=buildCard(acLines);
+    mainClips.push({asset:{type:'html',html:acHTML,width:1280,height:720},start:offset,length:6,transition:{in:'fade',out:'fade'}});
+    offset+=6;
+  }
 
-  const timeline={background:'#000000',soundtrack:{src:music.url,effect:'fadeOut',volume:0.6},tracks};
+  // LETTERBOX
+  if(showLetterbox){
+    const lbHTML=`<div style="width:1280px;height:720px;font-family:Arial,sans-serif"><div style="background:#000;height:90px;width:100%"></div><div style="height:540px"></div><div style="background:#000;height:90px;width:100%"></div></div>`;
+    overlayClips.push({asset:{type:'html',html:lbHTML,width:1280,height:720},start:showIntro?5:0,length:offset-(showIntro?5:0)-(showOutro?7:0)-(showAcademic?6:0)});
+  }
 
-  addLog('Submitting to Shotstack...','info');
-  setP(25);
+  const tracks=[{clips:mainClips}];
+  if(overlayClips.length) tracks.push({clips:overlayClips});
+
+  const timeline={
+    background:'#000000',
+    soundtrack:{src:music.url,effect:'fadeOut',volume:vol},
+    tracks
+  };
+
+  addLog('Submitting to Shotstack Production...','info');
+  setP(20);
 
   try{
-    const r=await fetch('/api/ss/render',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({timeline,output:{format:'mp4',resolution:'hd'}})});
+    const r=await fetch('/api/ss/render',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({timeline,output:{format:'mp4',resolution:'hd',fps:30}})});
     const d=await r.json();
     if(d.response?.id){
       addLog('Queued — ID: '+d.response.id,'ok');
-      setP(40);
+      setP(35);
       await pollRender(d.response.id,title);
     }else{
-      addLog('Error: '+JSON.stringify(d).slice(0,400),'err');
+      addLog('Shotstack error: '+JSON.stringify(d).slice(0,500),'err');
       document.getElementById('renderBtn').disabled=false;
     }
   }catch(e){
@@ -291,9 +532,9 @@ async function submitRender(){
 }
 
 async function pollRender(id,title){
-  for(let i=0;i<25;i++){
+  for(let i=0;i<30;i++){
     await new Promise(r=>setTimeout(r,8000));
-    setP(40+i*2.4);
+    setP(35+i*2.1);
     try{
       const r=await fetch('/api/ss/render/'+id);
       const d=await r.json();
@@ -301,18 +542,18 @@ async function pollRender(id,title){
       addLog('Status: '+status,'info');
       if(status==='done'&&d.response?.url){
         setP(100);
-        addLog('Done!','ok');
-        document.getElementById('renderResult').innerHTML=`<div class="render-done"><div class="ri">✅</div><div><div class="rt">Video ready</div><div class="rs">${title} · HD MP4</div><a href="${d.response.url}" target="_blank">⬇ Download MP4</a></div></div>`;
+        addLog('Render complete! Clean HD MP4 ready.','ok');
+        document.getElementById('renderResult').innerHTML=`<div class="render-done"><div class="ri">✅</div><div><div class="rt">${title} — ready</div><div class="rs">Clean HD MP4 · No watermark · Production quality</div><a href="${d.response.url}" target="_blank">⬇ Download MP4</a></div></div>`;
         document.getElementById('renderBtn').disabled=false;
         return;
       }else if(status==='failed'){
-        addLog('Render failed — check your video URL is publicly accessible.','err');
+        addLog('Render failed. Check all video URLs end in dl=1 and are publicly accessible.','err');
         document.getElementById('renderBtn').disabled=false;
         return;
       }
-    }catch(e){addLog('Poll: '+e.message,'err');}
+    }catch(e){addLog('Poll error: '+e.message,'err');}
   }
-  addLog('Timed out.','warn');
+  addLog('Timed out — check Shotstack dashboard for render status.','warn');
   document.getElementById('renderBtn').disabled=false;
 }
 </script>
