@@ -76,7 +76,7 @@ app.post('/api/ss/render', async (req, res) => {
     const payload = JSON.stringify(req.body);
     console.log('Payload size:', payload.length, 'bytes');
 
-    const r = await fetch('https://api.shotstack.io/stage/render', {
+    const r = await fetch('https://api.shotstack.io/v1/render', {
       method: 'POST',
       headers: {
         'x-api-key': SS_KEY,
@@ -103,7 +103,7 @@ app.post('/api/ss/render', async (req, res) => {
 
 app.get('/api/ss/render/:id', async (req, res) => {
   try {
-    const r = await fetch(`https://api.shotstack.io/stage/render/${req.params.id}`, {
+    const r = await fetch(`https://api.shotstack.io/v1/render/${req.params.id}`, {
       headers: { 'x-api-key': SS_KEY },
     });
     const data = await r.json();
